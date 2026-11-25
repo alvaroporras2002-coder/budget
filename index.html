@@ -1,1 +1,1482 @@
 
+<!DOCTYPE html>
+<html lang="es-CR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Mi Salario CR</title>
+
+  <!-- Meta tags PWA para experiencia nativa en iPhone (Safari -> Agregar a pantalla de inicio) -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Mi Salario CR" />
+  <meta name="theme-color" content="#F2F2F7" id="theme-color-meta" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <!-- Tailwind CSS para utilidades responsivas -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* ==========================================================================
+       SISTEMA DE DISEÑO NATIVO iOS (Apple Human Interface Guidelines)
+       ========================================================================== */
+    :root {
+      --ios-bg: #F2F2F7;
+      --ios-card: #FFFFFF;
+      --ios-card-secondary: #F9F9FB;
+      --ios-text: #000000;
+      --ios-text-secondary: #6C6C70;
+      --ios-text-tertiary: #8E8E93;
+      --ios-separator: rgba(60, 60, 67, 0.12);
+      --ios-fill: rgba(120, 120, 128, 0.12);
+      --ios-fill-strong: rgba(120, 120, 128, 0.20);
+      --ios-glass: rgba(249, 249, 249, 0.85);
+      --ios-tab-border: rgba(0, 0, 0, 0.08);
+      --ios-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+
+      /* Colores de acento nativos iOS */
+      --ios-blue: #007AFF;
+      --ios-green: #34C759;
+      --ios-orange: #FF9500;
+      --ios-purple: #AF52DE;
+      --ios-red: #FF3B30;
+      --ios-teal: #30B0C7;
+    }
+
+    /* Modo oscuro nativo iOS */
+    html.dark {
+      --ios-bg: #000000;
+      --ios-card: #1C1C1E;
+      --ios-card-secondary: #2C2C2E;
+      --ios-text: #FFFFFF;
+      --ios-text-secondary: #AEAEB2;
+      --ios-text-tertiary: #8E8E93;
+      --ios-separator: rgba(84, 84, 88, 0.45);
+      --ios-fill: rgba(120, 120, 128, 0.28);
+      --ios-fill-strong: rgba(120, 120, 128, 0.42);
+      --ios-glass: rgba(28, 28, 30, 0.85);
+      --ios-tab-border: rgba(255, 255, 255, 0.1);
+      --ios-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--ios-bg);
+      color: var(--ios-text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overscroll-behavior-y: none;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    /* Marco elegante en escritorio, pantalla completa en iPhone */
+    .app-shell {
+      max-width: 440px;
+      margin: 0 auto;
+      min-height: 100dvh;
+      position: relative;
+      background-color: var(--ios-bg);
+      padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+    }
+
+    @media (min-width: 520px) {
+      body {
+        background-color: #E5E5EA;
+      }
+      html.dark body {
+        background-color: #0D0D0F;
+      }
+      .app-shell {
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.12);
+        min-height: 100vh;
+      }
+    }
+
+    /* Encabezado fijo con efecto vidrio esmerilado iOS */
+    .ios-header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: var(--ios-glass);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 0.5px solid var(--ios-tab-border);
+      padding-top: calc(12px + env(safe-area-inset-top, 0px));
+    }
+
+    /* Tarjeta base iOS */
+    .ios-card {
+      background-color: var(--ios-card);
+      border-radius: 18px;
+      box-shadow: var(--ios-shadow);
+      transition: transform 0.15s ease, background-color 0.25s ease;
+    }
+
+    /* Control segmentado estilo iOS */
+    .segmented-control {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background-color: var(--ios-fill);
+      border-radius: 10px;
+      padding: 2px;
+      user-select: none;
+    }
+    .segmented-pill {
+      position: absolute;
+      top: 2px;
+      bottom: 2px;
+      left: 2px;
+      width: calc(50% - 2px);
+      background-color: var(--ios-card);
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.04);
+      transition: transform 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+      z-index: 0;
+    }
+    .segmented-control[data-active="biweekly"] .segmented-pill {
+      transform: translateX(100%);
+    }
+    .segmented-btn {
+      position: relative;
+      z-index: 1;
+      padding: 7px 12px;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      color: var(--ios-text);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Interruptor (Toggle) nativo iOS */
+    .ios-switch {
+      position: relative;
+      display: inline-block;
+      width: 51px;
+      height: 31px;
+      flex-shrink: 0;
+    }
+    .ios-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .ios-switch-slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: var(--ios-fill-strong);
+      border-radius: 31px;
+      transition: background-color 0.25s ease;
+    }
+    .ios-switch-slider::before {
+      content: "";
+      position: absolute;
+      height: 27px;
+      width: 27px;
+      left: 2px;
+      bottom: 2px;
+      background-color: #FFFFFF;
+      border-radius: 50%;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.22);
+      transition: transform 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .ios-switch input:checked + .ios-switch-slider {
+      background-color: var(--ios-green);
+    }
+    .ios-switch input:checked + .ios-switch-slider::before {
+      transform: translateX(20px);
+    }
+
+    /* Sliders estilo iOS para Ajustes */
+    input[type="range"].ios-range {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 5px;
+      border-radius: 999px;
+      background: var(--ios-fill-strong);
+      outline: none;
+    }
+    input[type="range"].ios-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.22), 0 0 0 0.5px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+    }
+
+    /* Tab Bar inferior estilo iOS */
+    .ios-tabbar {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 440px;
+      z-index: 40;
+      background: var(--ios-glass);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-top: 0.5px solid var(--ios-tab-border);
+      padding-top: 8px;
+      padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .tab-btn {
+      color: var(--ios-text-tertiary);
+      transition: color 0.18s ease, transform 0.12s ease;
+    }
+    .tab-btn.active {
+      color: var(--ios-blue);
+    }
+    .tab-btn:active {
+      transform: scale(0.93);
+    }
+
+    /* Estado de tarjeta completada */
+    .envelope-card.is-done {
+      opacity: 0.68;
+    }
+    .envelope-card.is-done .amount-text {
+      text-decoration: line-through;
+      color: var(--ios-green);
+    }
+
+    /* Animación suave para toast y modales */
+    .ios-toast {
+      position: fixed;
+      top: calc(16px + env(safe-area-inset-top, 0px));
+      left: 50%;
+      transform: translate(-50%, -120%);
+      z-index: 100;
+      background: rgba(28, 28, 30, 0.92);
+      color: #FFFFFF;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.25s ease;
+      opacity: 0;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    html.dark .ios-toast {
+      background: rgba(242, 242, 247, 0.94);
+      color: #000000;
+    }
+    .ios-toast.show {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+
+    /* Sheet de confirmación estilo iOS (reemplaza confirm/alert) */
+    .ios-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      background: rgba(0, 0, 0, 0.42);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+    .ios-modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .ios-action-sheet {
+      width: 100%;
+      max-width: 420px;
+      padding: 12px 12px calc(16px + env(safe-area-inset-bottom, 0px));
+      transform: translateY(100%);
+      transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .ios-modal-backdrop.open .ios-action-sheet {
+      transform: translateY(0);
+    }
+
+    /* Quitar flechas de inputs numéricos */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .text-secondary { color: var(--ios-text-secondary); }
+    .text-tertiary { color: var(--ios-text-tertiary); }
+    .bg-fill { background-color: var(--ios-fill); }
+    .border-sep { border-color: var(--ios-separator); }
+  </style>
+</head>
+<body>
+  <!-- Notificación Toast flotante estilo iOS -->
+  <div id="iosToast" class="ios-toast" role="status" aria-live="polite">Listo</div>
+
+  <!-- Contenedor principal tipo iPhone -->
+  <div class="app-shell">
+
+    <!-- ======================================================================
+         ENCABEZADO FIJO iOS
+         ====================================================================== -->
+    <header class="ios-header px-4 pb-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-[11px] font-semibold uppercase tracking-wider text-tertiary">Costa Rica · Colones (₡)</p>
+          <h1 id="headerTitle" class="text-[24px] font-bold tracking-tight leading-tight">Dividir Salario</h1>
+        </div>
+        <button id="headerThemeBtn" type="button" aria-label="Cambiar modo oscuro"
+          class="w-9 h-9 rounded-full bg-fill flex items-center justify-center active:scale-95 transition">
+          <!-- Ícono luna/sol dinámico -->
+          <svg id="themeIcon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ======================================================================
+         PESTAÑA 1: DIVIDIR (PRINCIPAL)
+         ====================================================================== -->
+    <main id="view-split" class="px-4 pt-3 space-y-4">
+
+      <!-- Control Segmentado Mensual / Quincenal -->
+      <div id="periodControl" class="segmented-control" data-active="monthly">
+        <div class="segmented-pill"></div>
+        <button type="button" class="segmented-btn" data-period="monthly">Mensual</button>
+        <button type="button" class="segmented-btn" data-period="biweekly">Quincenal</button>
+      </div>
+
+      <!-- Tarjeta Principal: Ingreso de salario exacto -->
+      <section class="ios-card p-4">
+        <div class="flex items-center justify-between mb-1.5">
+          <label for="salaryInput" class="text-[13px] font-semibold text-secondary">
+            ¿Cuánto recibiste de salario?
+          </label>
+          <span id="debtHintBadge" class="text-[11px] font-semibold px-2 py-0.5 rounded-full"
+            style="background: rgba(255, 59, 48, 0.12); color: var(--ios-red);">
+            Deuda fija: ₡32,000
+          </span>
+        </div>
+
+        <!-- Campo numérico grande con símbolo de Colón -->
+        <div class="flex items-center gap-2 py-2 border-b border-sep">
+          <span class="text-[32px] font-bold text-[#007AFF] select-none">₡</span>
+          <input
+            id="salaryInput"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="480,000"
+            class="w-full bg-transparent text-[34px] font-bold tracking-tight outline-none"
+            aria-label="Monto exacto recibido en colones"
+          />
+          <button id="clearSalaryBtn" type="button" aria-label="Limpiar monto"
+            class="w-7 h-7 rounded-full bg-fill flex items-center justify-center text-tertiary hover:opacity-80 flex-shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Botones rápidos de montos habituales -->
+        <div class="mt-3 flex items-center gap-2 flex-wrap">
+          <span class="text-[11px] font-medium text-tertiary mr-0.5">Rápido:</span>
+          <div id="quickPresets" class="flex items-center gap-1.5 flex-wrap"></div>
+        </div>
+      </section>
+
+      <!-- Alerta Inteligente para Salario Variable -->
+      <section id="variableAlert" class="hidden ios-card p-3.5 border"></section>
+
+      <!-- Barra Visual Apilada + Progreso de Transferencias -->
+      <section class="ios-card p-4 space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-[13px] font-semibold">Distribución del pago</span>
+          <span id="doneCounterText" class="text-[12px] font-semibold text-[#007AFF]">0 de 6 listas</span>
+        </div>
+
+        <!-- Barra proporcional apilada -->
+        <div id="stackedBar" class="w-full h-3.5 rounded-full overflow-hidden flex bg-fill"></div>
+
+        <!-- Progreso de checkboxes -->
+        <div class="space-y-1.5">
+          <div class="w-full h-1.5 rounded-full bg-fill overflow-hidden">
+            <div id="doneProgressBar" class="h-full rounded-full transition-all duration-300"
+              style="width: 0%; background-color: var(--ios-green);"></div>
+          </div>
+          <div class="flex items-center justify-between text-[11px] text-tertiary">
+            <span id="remainingAfterDebtText">Disponible tras deuda: ₡448,000</span>
+            <button id="resetChecksBtn" type="button" class="text-[#007AFF] font-medium hidden">
+              Desmarcar todas
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Lista de Tarjetas: ¿A dónde mandar el dinero? -->
+      <section class="space-y-2.5">
+        <div class="flex items-center justify-between px-1">
+          <h2 class="text-[13px] font-semibold uppercase tracking-wide text-secondary">
+            ¿A dónde mandar el dinero?
+          </h2>
+          <span class="text-[11px] text-tertiary">Toca Copiar para SINPE</span>
+        </div>
+
+        <div id="envelopesList" class="space-y-2.5"></div>
+      </section>
+
+      <!-- Botón Principal Guardar en Historial -->
+      <div class="pt-1 pb-2">
+        <button id="saveHistoryBtn" type="button"
+          class="w-full py-3.5 px-5 rounded-[16px] text-[16px] font-semibold text-white shadow-sm active:scale-[0.98] transition flex items-center justify-center gap-2"
+          style="background-color: var(--ios-blue);">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+          </svg>
+          <span>Guardar reparto en historial</span>
+        </button>
+      </div>
+    </main>
+
+    <!-- ======================================================================
+         PESTAÑA 2: HISTORIAL
+         ====================================================================== -->
+    <main id="view-history" class="hidden px-4 pt-3 space-y-4">
+      <!-- Tarjeta de Resumen Acumulado -->
+      <section class="rounded-[20px] p-5 text-white shadow-md"
+        style="background: linear-gradient(135deg, #007AFF 0%, #30B0C7 100%);">
+        <p class="text-[12px] font-semibold uppercase tracking-wider opacity-85">
+          Total ahorrado e invertido registrado
+        </p>
+        <p id="totalSavedHero" class="text-[34px] font-bold tracking-tight mt-1">₡0</p>
+        <div class="mt-3 pt-3 border-t border-white/20 flex items-center justify-between text-[13px]">
+          <span id="historyCountText" class="opacity-90">0 pagos guardados</span>
+          <span id="totalIncomeHero" class="font-semibold">Recibido: ₡0</span>
+        </div>
+      </section>
+
+      <!-- Lista Cronológica -->
+      <section class="space-y-2.5">
+        <div class="flex items-center justify-between px-1">
+          <h2 class="text-[13px] font-semibold uppercase tracking-wide text-secondary">
+            Pagos guardados
+          </h2>
+        </div>
+        <div id="historyList" class="space-y-2.5"></div>
+      </section>
+    </main>
+
+    <!-- ======================================================================
+         PESTAÑA 3: AJUSTES
+         ====================================================================== -->
+    <main id="view-settings" class="hidden px-4 pt-3 space-y-4">
+
+      <!-- Apariencia -->
+      <section class="ios-card p-4 flex items-center justify-between">
+        <div>
+          <p class="text-[15px] font-semibold">Modo oscuro</p>
+          <p class="text-[12px] text-secondary">Estética nocturna de iOS</p>
+        </div>
+        <label class="ios-switch">
+          <input id="darkModeToggle" type="checkbox" />
+          <span class="ios-switch-slider"></span>
+        </label>
+      </section>
+
+      <!-- Deuda Fija Mensual -->
+      <section class="ios-card p-4 space-y-2.5">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-[15px] font-semibold">Deuda fija mensual</p>
+            <p class="text-[12px] text-secondary">En Quincenal se divide automáticamente a la mitad</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-fill">
+          <span class="text-[18px] font-bold text-[#FF3B30]">₡</span>
+          <input id="debtSettingInput" type="number" inputmode="numeric" min="0" step="1000"
+            class="w-full bg-transparent text-[18px] font-bold outline-none" />
+        </div>
+      </section>
+
+      <!-- Porcentajes de Reparto -->
+      <section class="ios-card p-4 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-[15px] font-semibold">Porcentajes del resto</p>
+            <p class="text-[12px] text-secondary">Se aplican sobre (Salario - Deuda)</p>
+          </div>
+          <span id="percentSumBadge" class="text-[13px] font-bold px-2.5 py-1 rounded-full">
+            100.0%
+          </span>
+        </div>
+
+        <div id="settingsSliders" class="space-y-4"></div>
+
+        <!-- Botones de control de porcentajes -->
+        <div class="grid grid-cols-2 gap-2.5 pt-2 border-t border-sep">
+          <button id="autoNormalizeBtn" type="button"
+            class="py-2.5 px-3 rounded-xl text-[13px] font-semibold text-white active:scale-95 transition"
+            style="background-color: var(--ios-blue);">
+            Auto-ajustar a 100%
+          </button>
+          <button id="restoreDefaultsBtn" type="button"
+            class="py-2.5 px-3 rounded-xl text-[13px] font-semibold bg-fill active:scale-95 transition">
+            Restaurar iniciales
+          </button>
+        </div>
+      </section>
+
+      <!-- Guía rápida: Cómo instalar en iPhone -->
+      <section class="ios-card p-4 space-y-3">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl flex items-center justify-center text-white"
+            style="background-color: var(--ios-blue);">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <h3 class="text-[15px] font-semibold">Cómo instalar en tu iPhone</h3>
+        </div>
+
+        <ol class="space-y-2.5 text-[13px] text-secondary">
+          <li class="flex items-start gap-2.5">
+            <span class="w-5 h-5 rounded-full bg-fill text-[11px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+            <span>Abre este archivo o enlace en <strong>Safari</strong> desde tu iPhone.</span>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <span class="w-5 h-5 rounded-full bg-fill text-[11px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+            <span>Toca el botón <strong>Compartir</strong> (cuadro con flecha hacia arriba) en la barra inferior.</span>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <span class="w-5 h-5 rounded-full bg-fill text-[11px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+            <span>Desliza y elige <strong>"Agregar a pantalla de inicio"</strong>. Quedará como una app nativa más.</span>
+          </li>
+        </ol>
+      </section>
+    </main>
+
+    <!-- ======================================================================
+         BARRA DE NAVEGACIÓN INFERIOR (TAB BAR iOS)
+         ====================================================================== -->
+    <nav class="ios-tabbar grid grid-cols-3" aria-label="Navegación principal">
+      <button type="button" class="tab-btn active flex flex-col items-center gap-0.5 py-0.5" data-tab="split">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
+        </svg>
+        <span class="text-[10px] font-semibold">Dividir</span>
+      </button>
+
+      <button type="button" class="tab-btn flex flex-col items-center gap-0.5 py-0.5" data-tab="history">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <span class="text-[10px] font-semibold">Historial</span>
+      </button>
+
+      <button type="button" class="tab-btn flex flex-col items-center gap-0.5 py-0.5" data-tab="settings">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+        </svg>
+        <span class="text-[10px] font-semibold">Ajustes</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ========================================================================
+       MODAL / ACTION SHEET iOS PARA CONFIRMACIONES (SIN alert/confirm)
+       ======================================================================== -->
+  <div id="iosModal" class="ios-modal-backdrop" role="dialog" aria-modal="true">
+    <div class="ios-action-sheet space-y-2">
+      <div class="ios-card overflow-hidden text-center">
+        <div class="px-4 py-3.5 border-b border-sep">
+          <p id="modalTitle" class="text-[13px] font-semibold text-secondary">Confirmar acción</p>
+          <p id="modalMessage" class="text-[12px] text-tertiary mt-0.5"></p>
+        </div>
+        <button id="modalConfirmBtn" type="button"
+          class="w-full py-3.5 text-[17px] font-semibold text-[#FF3B30] active:bg-fill transition">
+          Confirmar
+        </button>
+      </div>
+      <button id="modalCancelBtn" type="button"
+        class="ios-card w-full py-3.5 text-[17px] font-bold text-[#007AFF] active:opacity-80 transition">
+        Cancelar
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       LÓGICA DE LA APLICACIÓN (100% Vanilla JS + localStorage)
+       ======================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ----------------------------------------------------------------------
+         1. CONSTANTES Y VALORES INICIALES (Calibrados para ₡480,000 / ₡32,000)
+         ---------------------------------------------------------------------- */
+      const STORAGE_KEY = 'mi_salario_cr_ios_v1';
+
+      const DEFAULT_SETTINGS = {
+        fixedDebtMonthly: 32000,
+        // Porcentajes sobre el resto (Salario - Deuda). Suman 100.0%
+        percentages: {
+          housing: 26.8,    // ~₡120,000 con ₡480k
+          food: 21.4,       // ~₡96,000 con ₡480k
+          transport: 13.4,  // ~₡60,000 con ₡480k
+          couple: 17.0,     // ~₡76,000 con ₡480k
+          savings: 21.4     // ~₡96,000 con ₡480k
+        },
+        darkMode: false
+      };
+
+      // Porcentajes temporales cuando se activa "Modo Mes Bajo"
+      const LOW_MONTH_PERCENTAGES = {
+        housing: 40.0,
+        food: 30.0,
+        transport: 16.0,
+        couple: 6.0,
+        savings: 8.0
+      };
+
+      // Definición visual y descriptiva de cada categoría
+      const CATEGORY_META = [
+        {
+          key: 'debt',
+          name: 'Deuda fija',
+          desc: 'Prioridad #1 · Se aparta primero',
+          color: '#FF3B30',
+          bgSoft: 'rgba(255, 59, 48, 0.14)',
+          isFixed: true,
+          icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>'
+        },
+        {
+          key: 'housing',
+          name: 'Vivienda y servicios',
+          desc: 'Alquiler solo, luz, agua, internet y celular',
+          color: '#007AFF',
+          bgSoft: 'rgba(0, 122, 255, 0.14)',
+          icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>'
+        },
+        {
+          key: 'food',
+          name: 'Alimentación',
+          desc: 'Supermercado, feria del agricultor y diario',
+          color: '#34C759',
+          bgSoft: 'rgba(52, 199, 89, 0.14)',
+          icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>'
+        },
+        {
+          key: 'transport',
+          name: 'Transporte',
+          desc: 'Buses, tren, combustible o moto',
+          color: '#FF9500',
+          bgSoft: 'rgba(255, 149, 0, 0.14)',
+          icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M8 7h8m-8 4h8m-6 4h4M5 17h14a2 2 0 002-2V7a4 4 0 00-4-4H7a4 4 0 00-4 4v8a2 2 0 002 2zm1 0v2m12-2v2"/>'
+        },
+        {
+          key: 'couple',
+          name: 'Pareja y disfrute',
+          desc: 'Salidas con tu pareja, cafés y gustos',
+          color: '#AF52DE',
+          bgSoft: 'rgba(175, 82, 222, 0.14)',
+          icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>'
+        },
+        {
+          key: 'savings',
+          name: 'Ahorro e inversión',
+          desc: 'Colchón de emergencia + rendimientos',
+          color: '#30B0C7',
+          bgSoft: 'rgba(48, 176, 199, 0.15)',
+          hasSplitDetail: true,
+          icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>'
+        }
+      ];
+
+      /* ----------------------------------------------------------------------
+         2. ESTADO DE LA APLICACIÓN Y PERSISTENCIA EN localStorage
+         ---------------------------------------------------------------------- */
+      let state = {
+        activeTab: 'split',
+        period: 'monthly', // 'monthly' | 'biweekly'
+        salary: 480000,
+        lowMonthMode: false,
+        checkedKeys: {},   // { debt: true, housing: false, ... }
+        settings: JSON.parse(JSON.stringify(DEFAULT_SETTINGS)),
+        history: []
+      };
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return;
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            state.period = parsed.period === 'biweekly' ? 'biweekly' : 'monthly';
+            state.salary = typeof parsed.salary === 'number' && parsed.salary >= 0 ? parsed.salary : 480000;
+            state.lowMonthMode = Boolean(parsed.lowMonthMode);
+            state.checkedKeys = parsed.checkedKeys && typeof parsed.checkedKeys === 'object' ? parsed.checkedKeys : {};
+            if (parsed.settings) {
+              state.settings.fixedDebtMonthly = typeof parsed.settings.fixedDebtMonthly === 'number'
+                ? parsed.settings.fixedDebtMonthly : DEFAULT_SETTINGS.fixedDebtMonthly;
+              state.settings.darkMode = Boolean(parsed.settings.darkMode);
+              if (parsed.settings.percentages) {
+                state.settings.percentages = Object.assign(
+                  {},
+                  DEFAULT_SETTINGS.percentages,
+                  parsed.settings.percentages
+                );
+              }
+            }
+            state.history = Array.isArray(parsed.history) ? parsed.history : [];
+          }
+        } catch (err) {
+          console.warn('No se pudo cargar el estado guardado:', err);
+        }
+      }
+
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            period: state.period,
+            salary: state.salary,
+            lowMonthMode: state.lowMonthMode,
+            checkedKeys: state.checkedKeys,
+            settings: state.settings,
+            history: state.history
+          }));
+        } catch (err) {
+          console.warn('No se pudo guardar el estado:', err);
+        }
+      }
+
+      /* ----------------------------------------------------------------------
+         3. UTILIDADES DE FORMATO, PORTAPAPELES, TOAST Y MODAL
+         ---------------------------------------------------------------------- */
+      function formatCRC(amount) {
+        const safe = Math.max(0, Math.round(Number(amount) || 0));
+        return '₡' + safe.toLocaleString('en-US');
+      }
+
+      function formatNumberInput(num) {
+        if (!num && num !== 0) return '';
+        return Math.round(num).toLocaleString('en-US');
+      }
+
+      function parseNumericInput(str) {
+        const digits = String(str || '').replace(/[^\d]/g, '');
+        return digits ? parseInt(digits, 10) : 0;
+      }
+
+      let toastTimer = null;
+      function showToast(msg) {
+        const toast = document.getElementById('iosToast');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2100);
+      }
+
+      // Copiar compatible con iFrame y Safari iOS (usa execCommand('copy'))
+      function copyAmountToClipboard(rawNumber, btnEl) {
+        const textToCopy = String(Math.round(rawNumber));
+        try {
+          const textarea = document.createElement('textarea');
+          textarea.value = textToCopy;
+          textarea.setAttribute('readonly', '');
+          textarea.style.position = 'fixed';
+          textarea.style.top = '-9999px';
+          textarea.style.left = '-9999px';
+          document.body.appendChild(textarea);
+          textarea.select();
+          textarea.setSelectionRange(0, textToCopy.length);
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+
+          showToast('Copiado: ' + formatCRC(rawNumber));
+          if (btnEl) {
+            const originalHTML = btnEl.innerHTML;
+            btnEl.innerHTML = '<span style="color: var(--ios-green);">Copiado ✓</span>';
+            setTimeout(() => {
+              btnEl.innerHTML = originalHTML;
+            }, 1400);
+          }
+        } catch (err) {
+          showToast('No se pudo copiar');
+        }
+      }
+
+      // Modal Action Sheet estilo iOS
+      let pendingModalAction = null;
+      function openConfirmModal(title, message, confirmLabel, onConfirm) {
+        document.getElementById('modalTitle').textContent = title;
+        document.getElementById('modalMessage').textContent = message;
+        document.getElementById('modalConfirmBtn').textContent = confirmLabel;
+        pendingModalAction = onConfirm;
+        document.getElementById('iosModal').classList.add('open');
+      }
+
+      function closeConfirmModal() {
+        document.getElementById('iosModal').classList.remove('open');
+        pendingModalAction = null;
+      }
+
+      /* ----------------------------------------------------------------------
+         4. MOTOR DE CÁLCULO DE DISTRIBUCIÓN
+         ---------------------------------------------------------------------- */
+      function computeDistribution() {
+        const income = Math.max(0, state.salary);
+        const isBiweekly = state.period === 'biweekly';
+        const periodDebtTarget = isBiweekly
+          ? Math.round(state.settings.fixedDebtMonthly / 2)
+          : Math.round(state.settings.fixedDebtMonthly);
+
+        // Umbrales de salario variable
+        const lowThreshold = isBiweekly ? 200000 : 400000;
+        const highThreshold = isBiweekly ? 260000 : 520000;
+
+        const isLowMonth = income > 0 && income < lowThreshold;
+        const isHighMonth = income > highThreshold;
+
+        // Si el ingreso ya no es bajo, desactivar el modo mes bajo visualmente
+        const effectiveLowMode = isLowMonth && state.lowMonthMode;
+
+        // 1. Deuda fija prioritaria
+        const debtAllocated = Math.min(income, periodDebtTarget);
+        const remaining = Math.max(0, income - debtAllocated);
+
+        // 2. Porcentajes activos sobre el resto
+        const rawPerc = effectiveLowMode ? LOW_MONTH_PERCENTAGES : state.settings.percentages;
+        const variableKeys = ['housing', 'food', 'transport', 'couple', 'savings'];
+        const sumPerc = variableKeys.reduce((acc, k) => acc + (Number(rawPerc[k]) || 0), 0);
+
+        const amounts = { debt: debtAllocated };
+        let allocatedVarSum = 0;
+
+        variableKeys.forEach((key, idx) => {
+          const weight = sumPerc > 0 ? (Number(rawPerc[key]) || 0) / sumPerc : 0.2;
+          if (idx === variableKeys.length - 1) {
+            // Ajuste fino en la última categoría para que la suma cuadre exacto al colón
+            amounts[key] = Math.max(0, remaining - allocatedVarSum);
+          } else {
+            const val = Math.round(remaining * weight);
+            amounts[key] = val;
+            allocatedVarSum += val;
+          }
+        });
+
+        // Porcentaje sobre el salario total recibido para cada tarjeta
+        const totalShare = {};
+        CATEGORY_META.forEach(cat => {
+          totalShare[cat.key] = income > 0 ? (amounts[cat.key] / income) * 100 : 0;
+        });
+
+        return {
+          income,
+          periodDebtTarget,
+          debtShortfall: income < periodDebtTarget,
+          remaining,
+          isLowMonth,
+          isHighMonth,
+          effectiveLowMode,
+          amounts,
+          totalShare
+        };
+      }
+
+      /* ----------------------------------------------------------------------
+         5. RENDERIZADO DE LA INTERFAZ
+         ---------------------------------------------------------------------- */
+      function applyTheme() {
+        const isDark = state.settings.darkMode;
+        document.documentElement.classList.toggle('dark', isDark);
+        document.getElementById('darkModeToggle').checked = isDark;
+        document.getElementById('theme-color-meta').setAttribute('content', isDark ? '#000000' : '#F2F2F7');
+
+        const iconEl = document.getElementById('themeIcon');
+        if (isDark) {
+          // Sol
+          iconEl.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>';
+        } else {
+          // Luna
+          iconEl.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>';
+        }
+      }
+
+      function renderQuickPresets() {
+        const presets = state.period === 'biweekly'
+          ? [190000, 240000, 275000]
+          : [380000, 480000, 550000];
+
+        const container = document.getElementById('quickPresets');
+        container.innerHTML = presets.map(val => {
+          const active = state.salary === val;
+          return `
+            <button type="button" data-preset="${val}"
+              class="px-2.5 py-1 rounded-full text-[12px] font-semibold transition active:scale-95 ${
+                active ? 'text-white' : 'bg-fill text-secondary'
+              }"
+              style="${active ? 'background-color: var(--ios-blue);' : ''}">
+              ${formatCRC(val)}
+            </button>
+          `;
+        }).join('');
+
+        container.querySelectorAll('button[data-preset]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            state.salary = parseInt(btn.dataset.preset, 10);
+            document.getElementById('salaryInput').value = formatNumberInput(state.salary);
+            saveState();
+            renderSplitView();
+          });
+        });
+      }
+
+      function renderSplitView() {
+        const dist = computeDistribution();
+
+        // Actualizar control segmentado y badge de deuda
+        document.getElementById('periodControl').setAttribute('data-active', state.period);
+        document.getElementById('debtHintBadge').textContent =
+          `Deuda fija: ${formatCRC(dist.periodDebtTarget)}`;
+
+        // Actualizar botones rápidos
+        renderQuickPresets();
+
+        // Alerta inteligente de salario variable
+        const alertEl = document.getElementById('variableAlert');
+        if (dist.debtShortfall && dist.income > 0) {
+          alertEl.className = 'ios-card p-3.5 border';
+          alertEl.style.borderColor = 'rgba(255, 59, 48, 0.35)';
+          alertEl.style.backgroundColor = 'rgba(255, 59, 48, 0.08)';
+          alertEl.innerHTML = `
+            <div class="flex items-start gap-2.5">
+              <span class="text-[18px] leading-none mt-0.5">⚠️</span>
+              <div class="text-[13px]">
+                <p class="font-semibold" style="color: var(--ios-red);">Monto menor a la deuda fija</p>
+                <p class="text-secondary mt-0.5">El monto ingresado cubre parcialmente tu deuda de ${formatCRC(dist.periodDebtTarget)}.</p>
+              </div>
+            </div>
+          `;
+        } else if (dist.isLowMonth) {
+          alertEl.className = 'ios-card p-3.5 border';
+          alertEl.style.borderColor = 'rgba(255, 149, 0, 0.38)';
+          alertEl.style.backgroundColor = 'rgba(255, 149, 0, 0.09)';
+          alertEl.innerHTML = `
+            <div class="flex items-center justify-between gap-3">
+              <div class="text-[13px]">
+                <p class="font-semibold" style="color: var(--ios-orange);">
+                  ${state.period === 'biweekly' ? 'Quincena baja' : 'Mes bajo'}: protege esenciales
+                </p>
+                <p class="text-secondary text-[12px] mt-0.5">
+                  Activa <strong>Modo Mes Bajo</strong> para recortar salidas y proteger vivienda y comida.
+                </p>
+              </div>
+              <label class="ios-switch" aria-label="Activar Modo Mes Bajo">
+                <input id="lowMonthToggle" type="checkbox" ${state.lowMonthMode ? 'checked' : ''} />
+                <span class="ios-switch-slider"></span>
+              </label>
+            </div>
+          `;
+          document.getElementById('lowMonthToggle').addEventListener('change', (e) => {
+            state.lowMonthMode = e.target.checked;
+            saveState();
+            renderSplitView();
+            showToast(state.lowMonthMode ? 'Modo Mes Bajo activado' : 'Reparto normal restaurado');
+          });
+        } else if (dist.isHighMonth) {
+          alertEl.className = 'ios-card p-3.5 border';
+          alertEl.style.borderColor = 'rgba(52, 199, 89, 0.38)';
+          alertEl.style.backgroundColor = 'rgba(52, 199, 89, 0.09)';
+          alertEl.innerHTML = `
+            <div class="flex items-start gap-2.5">
+              <span class="text-[18px] leading-none mt-0.5">🚀</span>
+              <div class="text-[13px]">
+                <p class="font-semibold" style="color: var(--ios-green);">
+                  ${state.period === 'biweekly' ? '¡Buena quincena!' : '¡Mes bueno!'} El extra impulsa tu ahorro
+                </p>
+                <p class="text-secondary text-[12px] mt-0.5">
+                  Hoy mandas <strong>${formatCRC(dist.amounts.savings)}</strong> directo a tu colchón e inversión.
+                </p>
+              </div>
+            </div>
+          `;
+        } else {
+          alertEl.className = 'hidden';
+          alertEl.innerHTML = '';
+        }
+
+        // Barra apilada horizontal
+        const stackedBar = document.getElementById('stackedBar');
+        if (dist.income > 0) {
+          stackedBar.innerHTML = CATEGORY_META.map(cat => {
+            const pct = dist.totalShare[cat.key];
+            return `<div style="width: ${pct}%; background-color: ${cat.color};" class="h-full transition-all duration-300" title="${cat.name}: ${pct.toFixed(1)}%"></div>`;
+          }).join('');
+        } else {
+          stackedBar.innerHTML = '';
+        }
+
+        // Progreso de transferencias listas
+        const doneCount = CATEGORY_META.filter(c => state.checkedKeys[c.key]).length;
+        const donePct = (doneCount / CATEGORY_META.length) * 100;
+        document.getElementById('doneCounterText').textContent = `${doneCount} de ${CATEGORY_META.length} listas`;
+        document.getElementById('doneProgressBar').style.width = `${donePct}%`;
+        document.getElementById('remainingAfterDebtText').textContent =
+          `Disponible tras deuda: ${formatCRC(dist.remaining)}`;
+        document.getElementById('resetChecksBtn').classList.toggle('hidden', doneCount === 0);
+
+        // Renderizar las 6 tarjetas de sobres/cuentas
+        const listEl = document.getElementById('envelopesList');
+        listEl.innerHTML = CATEGORY_META.map(cat => {
+          const amt = dist.amounts[cat.key];
+          const pct = dist.totalShare[cat.key];
+          const isDone = Boolean(state.checkedKeys[cat.key]);
+
+          // Desglose sugerido 50/50 para Ahorro e inversión
+          let extraSubHTML = '';
+          if (cat.hasSplitDetail && amt > 0) {
+            const halfEmergency = Math.round(amt / 2);
+            const halfInvest = amt - halfEmergency;
+            extraSubHTML = `
+              <div class="mt-2.5 pt-2.5 border-t border-sep grid grid-cols-2 gap-2 text-[11px]">
+                <div class="rounded-lg px-2.5 py-1.5 bg-fill">
+                  <span class="text-tertiary block">50% Fondo Emergencia</span>
+                  <span class="font-bold text-[12px]">${formatCRC(halfEmergency)}</span>
+                </div>
+                <div class="rounded-lg px-2.5 py-1.5 bg-fill">
+                  <span class="text-tertiary block">50% Inversión</span>
+                  <span class="font-bold text-[12px]" style="color: var(--ios-teal);">${formatCRC(halfInvest)}</span>
+                </div>
+              </div>
+            `;
+          }
+
+          return `
+            <article class="ios-card envelope-card p-3.5 ${isDone ? 'is-done' : ''}" data-key="${cat.key}">
+              <div class="flex items-center gap-3">
+                <!-- Botón Checkbox circular estilo iOS -->
+                <button type="button" class="check-btn w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 transition active:scale-90"
+                  data-check="${cat.key}" aria-label="Marcar ${cat.name} como lista"
+                  style="${isDone
+                    ? 'background-color: var(--ios-green); border: 2px solid var(--ios-green); color: #fff;'
+                    : 'border: 2px solid var(--ios-text-tertiary); background: transparent;'}">
+                  ${isDone ? '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>' : ''}
+                </button>
+
+                <!-- Ícono SVG con fondo suave -->
+                <div class="w-10 h-10 rounded-[12px] flex items-center justify-center flex-shrink-0"
+                  style="background-color: ${cat.bgSoft}; color: ${cat.color};">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    ${cat.icon}
+                  </svg>
+                </div>
+
+                <!-- Nombre y descripción -->
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center gap-1.5">
+                    <h3 class="text-[15px] font-semibold truncate">${cat.name}</h3>
+                    <span class="text-[11px] font-semibold text-tertiary">${pct.toFixed(0)}%</span>
+                  </div>
+                  <p class="text-[12px] text-secondary truncate">${cat.desc}</p>
+                </div>
+
+                <!-- Monto y botón Copiar -->
+                <div class="text-right flex-shrink-0">
+                  <p class="amount-text text-[17px] font-bold tracking-tight leading-tight">${formatCRC(amt)}</p>
+                  <button type="button" class="copy-btn mt-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-fill text-[11px] font-semibold text-[#007AFF] active:scale-95 transition"
+                    data-copy="${amt}">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    <span>Copiar</span>
+                  </button>
+                </div>
+              </div>
+              ${extraSubHTML}
+            </article>
+          `;
+        }).join('');
+
+        // Eventos de checkboxes y botones copiar
+        listEl.querySelectorAll('.check-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const key = btn.dataset.check;
+            state.checkedKeys[key] = !state.checkedKeys[key];
+            saveState();
+            renderSplitView();
+          });
+        });
+
+        listEl.querySelectorAll('.copy-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            copyAmountToClipboard(Number(btn.dataset.copy), btn);
+          });
+        });
+      }
+
+      /* ----------------------------------------------------------------------
+         6. RENDERIZADO DE HISTORIAL
+         ---------------------------------------------------------------------- */
+      function renderHistoryView() {
+        const totalSaved = state.history.reduce((sum, item) => sum + (item.amounts?.savings || 0), 0);
+        const totalIncome = state.history.reduce((sum, item) => sum + (item.income || 0), 0);
+
+        document.getElementById('totalSavedHero').textContent = formatCRC(totalSaved);
+        document.getElementById('totalIncomeHero').textContent = `Recibido: ${formatCRC(totalIncome)}`;
+        document.getElementById('historyCountText').textContent =
+          `${state.history.length} ${state.history.length === 1 ? 'pago guardado' : 'pagos guardados'}`;
+
+        const listEl = document.getElementById('historyList');
+        if (state.history.length === 0) {
+          listEl.innerHTML = `
+            <div class="ios-card p-8 text-center space-y-2">
+              <div class="w-12 h-12 rounded-full bg-fill mx-auto flex items-center justify-center text-tertiary">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <p class="text-[15px] font-semibold">Aún no hay pagos guardados</p>
+              <p class="text-[13px] text-secondary">Cuando recibas tu salario, toca "Guardar reparto en historial" para llevar tu control.</p>
+            </div>
+          `;
+          return;
+        }
+
+        listEl.innerHTML = state.history.map(entry => {
+          const dateObj = new Date(entry.date);
+          const dateStr = dateObj.toLocaleDateString('es-CR', {
+            day: 'numeric', month: 'short', year: 'numeric'
+          });
+          const periodLabel = entry.period === 'biweekly' ? 'Quincenal' : 'Mensual';
+
+          const detailRows = CATEGORY_META.map(cat => `
+            <div class="flex items-center justify-between text-[13px] py-1">
+              <span class="flex items-center gap-2 text-secondary">
+                <span class="w-2 h-2 rounded-full" style="background-color: ${cat.color};"></span>
+                ${cat.name}
+              </span>
+              <span class="font-semibold">${formatCRC(entry.amounts[cat.key] || 0)}</span>
+            </div>
+          `).join('');
+
+          return `
+            <article class="ios-card overflow-hidden">
+              <div class="p-4 flex items-center justify-between cursor-pointer history-toggle" data-id="${entry.id}">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-[16px] font-bold">${formatCRC(entry.income)}</span>
+                    <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-fill text-secondary">${periodLabel}</span>
+                    ${entry.lowMonthMode ? '<span class="text-[10px] font-semibold px-1.5 py-0.5 rounded-full" style="background: rgba(255,149,0,0.15); color: var(--ios-orange);">Mes Bajo</span>' : ''}
+                  </div>
+                  <p class="text-[12px] text-tertiary mt-0.5">${dateStr}</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-[11px] text-tertiary">Ahorro/Inv.</p>
+                  <p class="text-[15px] font-bold" style="color: var(--ios-teal);">${formatCRC(entry.amounts.savings || 0)}</p>
+                </div>
+              </div>
+
+              <!-- Detalle desplegable -->
+              <div class="history-detail hidden px-4 pb-3.5 pt-2 border-t border-sep space-y-1" id="detail-${entry.id}">
+                ${detailRows}
+                <div class="pt-2 mt-1 border-t border-sep flex justify-end">
+                  <button type="button" class="delete-history-btn text-[13px] font-semibold text-[#FF3B30] px-2 py-1"
+                    data-delete="${entry.id}">
+                    Eliminar registro
+                  </button>
+                </div>
+              </div>
+            </article>
+          `;
+        }).join('');
+
+        // Acordeón para ver detalle
+        listEl.querySelectorAll('.history-toggle').forEach(el => {
+          el.addEventListener('click', () => {
+            const detail = document.getElementById('detail-' + el.dataset.id);
+            if (detail) detail.classList.toggle('hidden');
+          });
+        });
+
+        // Botón eliminar con Action Sheet iOS
+        listEl.querySelectorAll('.delete-history-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const id = btn.dataset.delete;
+            openConfirmModal(
+              '¿Eliminar este registro?',
+              'Esta acción quitará este pago de tu historial acumulado.',
+              'Eliminar',
+              () => {
+                state.history = state.history.filter(item => item.id !== id);
+                saveState();
+                renderHistoryView();
+                showToast('Registro eliminado');
+              }
+            );
+          });
+        });
+      }
+
+      /* ----------------------------------------------------------------------
+         7. RENDERIZADO DE AJUSTES
+         ---------------------------------------------------------------------- */
+      function renderSettingsView() {
+        document.getElementById('debtSettingInput').value = state.settings.fixedDebtMonthly;
+
+        const variableCats = CATEGORY_META.filter(c => !c.isFixed);
+        const container = document.getElementById('settingsSliders');
+
+        container.innerHTML = variableCats.map(cat => {
+          const val = Number(state.settings.percentages[cat.key] || 0);
+          return `
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-[13px]">
+                <span class="font-semibold flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${cat.color};"></span>
+                  ${cat.name}
+                </span>
+                <span id="pct-val-${cat.key}" class="font-bold tabular-nums">${val.toFixed(1)}%</span>
+              </div>
+              <input type="range" class="ios-range" min="0" max="70" step="0.2"
+                value="${val}" data-cat="${cat.key}" aria-label="Porcentaje para ${cat.name}" />
+            </div>
+          `;
+        }).join('');
+
+        updatePercentSumBadge();
+
+        container.querySelectorAll('input[type="range"]').forEach(slider => {
+          slider.addEventListener('input', (e) => {
+            const key = e.target.dataset.cat;
+            const val = parseFloat(e.target.value);
+            state.settings.percentages[key] = val;
+            document.getElementById('pct-val-' + key).textContent = val.toFixed(1) + '%';
+            updatePercentSumBadge();
+            saveState();
+          });
+        });
+      }
+
+      function updatePercentSumBadge() {
+        const p = state.settings.percentages;
+        const sum = ['housing', 'food', 'transport', 'couple', 'savings']
+          .reduce((acc, k) => acc + (Number(p[k]) || 0), 0);
+        const badge = document.getElementById('percentSumBadge');
+        badge.textContent = sum.toFixed(1) + '%';
+        const isExact = Math.abs(sum - 100) < 0.15;
+        if (isExact) {
+          badge.style.backgroundColor = 'rgba(52, 199, 89, 0.15)';
+          badge.style.color = 'var(--ios-green)';
+        } else {
+          badge.style.backgroundColor = 'rgba(255, 149, 0, 0.18)';
+          badge.style.color = 'var(--ios-orange)';
+        }
+      }
+
+      function normalizePercentagesTo100() {
+        const keys = ['housing', 'food', 'transport', 'couple', 'savings'];
+        const sum = keys.reduce((acc, k) => acc + (Number(state.settings.percentages[k]) || 0), 0);
+        if (sum <= 0) {
+          state.settings.percentages = JSON.parse(JSON.stringify(DEFAULT_SETTINGS.percentages));
+        } else {
+          let running = 0;
+          keys.forEach((k, i) => {
+            if (i === keys.length - 1) {
+              state.settings.percentages[k] = Number(Math.max(0, 100 - running).toFixed(1));
+            } else {
+              const normalized = Number(((state.settings.percentages[k] / sum) * 100).toFixed(1));
+              state.settings.percentages[k] = normalized;
+              running += normalized;
+            }
+          });
+        }
+        saveState();
+        renderSettingsView();
+        showToast('Porcentajes ajustados al 100%');
+      }
+
+      /* ----------------------------------------------------------------------
+         8. NAVEGACIÓN ENTRE PESTAÑAS Y EVENTOS GLOBALES
+         ---------------------------------------------------------------------- */
+      function switchTab(tabName) {
+        state.activeTab = tabName;
+        const titles = {
+          split: 'Dividir Salario',
+          history: 'Historial',
+          settings: 'Ajustes'
+        };
+        document.getElementById('headerTitle').textContent = titles[tabName] || 'Mi Salario CR';
+
+        ['split', 'history', 'settings'].forEach(t => {
+          document.getElementById('view-' + t).classList.toggle('hidden', t !== tabName);
+        });
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.tab === tabName);
+        });
+
+        if (tabName === 'split') renderSplitView();
+        if (tabName === 'history') renderHistoryView();
+        if (tabName === 'settings') renderSettingsView();
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function initEvents() {
+        // Tabs inferiores
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+          btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+        });
+
+        // Selector Mensual / Quincenal
+        document.querySelectorAll('.segmented-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const nextPeriod = btn.dataset.period;
+            if (nextPeriod === state.period) return;
+            // Ajustar monto sugerido proporcionalmente al cambiar de periodo
+            if (nextPeriod === 'biweekly' && state.salary > 0) {
+              state.salary = Math.round(state.salary / 2);
+            } else if (nextPeriod === 'monthly' && state.salary > 0) {
+              state.salary = Math.round(state.salary * 2);
+            }
+            state.period = nextPeriod;
+            document.getElementById('salaryInput').value = formatNumberInput(state.salary);
+            saveState();
+            renderSplitView();
+          });
+        });
+
+        // Campo de salario con formato de miles en vivo
+        const salaryInput = document.getElementById('salaryInput');
+        salaryInput.value = formatNumberInput(state.salary);
+        salaryInput.addEventListener('input', (e) => {
+          const parsed = parseNumericInput(e.target.value);
+          state.salary = parsed;
+          e.target.value = parsed > 0 ? formatNumberInput(parsed) : '';
+          saveState();
+          renderSplitView();
+        });
+
+        // Limpiar campo de salario
+        document.getElementById('clearSalaryBtn').addEventListener('click', () => {
+          state.salary = 0;
+          salaryInput.value = '';
+          salaryInput.focus();
+          saveState();
+          renderSplitView();
+        });
+
+        // Desmarcar checkboxes
+        document.getElementById('resetChecksBtn').addEventListener('click', () => {
+          state.checkedKeys = {};
+          saveState();
+          renderSplitView();
+          showToast('Transferencias desmarcadas');
+        });
+
+        // Guardar reparto en historial
+        document.getElementById('saveHistoryBtn').addEventListener('click', () => {
+          const dist = computeDistribution();
+          if (dist.income <= 0) {
+            showToast('Ingresa tu monto de salario primero');
+            return;
+          }
+          const entry = {
+            id: 'pay_' + Date.now(),
+            date: new Date().toISOString(),
+            period: state.period,
+            income: dist.income,
+            lowMonthMode: dist.effectiveLowMode,
+            amounts: Object.assign({}, dist.amounts)
+          };
+          state.history.unshift(entry);
+          // Reiniciar checks para el próximo pago
+          state.checkedKeys = {};
+          saveState();
+          renderSplitView();
+          showToast('Reparto guardado en historial ✓');
+        });
+
+        // Modo oscuro desde header y desde Ajustes
+        document.getElementById('headerThemeBtn').addEventListener('click', () => {
+          state.settings.darkMode = !state.settings.darkMode;
+          applyTheme();
+          saveState();
+        });
+        document.getElementById('darkModeToggle').addEventListener('change', (e) => {
+          state.settings.darkMode = e.target.checked;
+          applyTheme();
+          saveState();
+        });
+
+        // Ajuste de deuda fija mensual
+        document.getElementById('debtSettingInput').addEventListener('input', (e) => {
+          const val = parseNumericInput(e.target.value);
+          state.settings.fixedDebtMonthly = val;
+          saveState();
+        });
+
+        // Auto-ajustar porcentajes a 100%
+        document.getElementById('autoNormalizeBtn').addEventListener('click', normalizePercentagesTo100);
+
+        // Restaurar valores iniciales
+        document.getElementById('restoreDefaultsBtn').addEventListener('click', () => {
+          openConfirmModal(
+            '¿Restaurar valores iniciales?',
+            'La deuda volverá a ₡32,000 y los porcentajes al plan base de ₡480,000.',
+            'Restaurar',
+            () => {
+              const keepDark = state.settings.darkMode;
+              state.settings = JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
+              state.settings.darkMode = keepDark;
+              saveState();
+              renderSettingsView();
+              showToast('Valores iniciales restaurados');
+            }
+          );
+        });
+
+        // Eventos del Modal iOS
+        document.getElementById('modalConfirmBtn').addEventListener('click', () => {
+          if (typeof pendingModalAction === 'function') pendingModalAction();
+          closeConfirmModal();
+        });
+        document.getElementById('modalCancelBtn').addEventListener('click', closeConfirmModal);
+        document.getElementById('iosModal').addEventListener('click', (e) => {
+          if (e.target.id === 'iosModal') closeConfirmModal();
+        });
+      }
+
+      /* ----------------------------------------------------------------------
+         9. INICIALIZACIÓN
+         ---------------------------------------------------------------------- */
+      loadState();
+      applyTheme();
+      initEvents();
+      renderSplitView();
+    })();
+  </script>
+</body>
+</html>
