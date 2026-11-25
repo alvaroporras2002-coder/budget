@@ -17,7 +17,7 @@
        1. DESIGN TOKENS — CRYSTAL CLEAR / LIQUID GLASS + TIPOGRAFÍA ADAPTABLE
        ========================================================================== */
     :root {
-      --font-scale: 1; /* Controlado reactivamente: 0.92 | 1 | 1.12 | 1.24 */
+      --font-scale: 1; /* Controlado reactivamente: 0.95 | 1 | 1.12 | 1.25 */
 
       --bg-base: #EAF1FA;
       --mesh-1: rgba(96, 165, 250, 0.34);
@@ -135,7 +135,6 @@
       transition: background 0.45s ease;
     }
 
-    /* Contenedor tipo iPhone centrado en móvil y adaptable en escritorio */
     .app-shell {
       position: relative;
       z-index: 1;
@@ -770,7 +769,7 @@
 
     .wt-stage {
       width: 100%;
-      height: 12.25rem;
+      height: 11.75rem;
       border-radius: 1.375rem;
       background: linear-gradient(155deg, rgba(0, 122, 255, 0.11), rgba(175, 82, 222, 0.08), rgba(40, 199, 111, 0.08));
       border: 1px solid var(--glass-border);
@@ -1366,7 +1365,7 @@
 
         <!-- Saludo personalizado centrado -->
         <p id="greetingLine" class="text-center txt-sec" style="font-size:0.8125rem;font-weight:700;margin:0;">
-          Organiza tu pago con claridad
+          Empieza desde cero · Escribe tu monto recibido
         </p>
 
         <!-- Control Segmentado: Mensual / Quincenal / Semanal -->
@@ -1377,10 +1376,10 @@
           <button type="button" class="segmented-btn" data-period="weekly">Semanal</button>
         </div>
 
-        <!-- Tarjeta Principal: Ingreso variable centrado -->
+        <!-- Tarjeta Principal: Ingreso desde cero -->
         <section class="glass-card p-18 text-center">
           <label for="salaryInput" class="txt-sec" style="font-size:0.8125rem;font-weight:700;display:block;">
-            ¿Cuánto recibiste neto en este pago?
+            ¿Cuánto recibiste neto en este pago? (Empieza en 0)
           </label>
 
           <div class="flex items-center justify-center gap-8 mt-8" style="padding:0.5rem 0;border-bottom:1px solid var(--separator);">
@@ -1390,11 +1389,11 @@
               type="text"
               inputmode="numeric"
               autocomplete="off"
-              placeholder="480,000"
+              placeholder="0"
               style="width:100%;max-width:14rem;background:transparent;border:none;outline:none;font-size:2.125rem;font-weight:900;letter-spacing:-0.03em;text-align:center;color:var(--text-primary);"
               aria-label="Monto exacto recibido"
             />
-            <button id="clearSalaryBtn" type="button" aria-label="Limpiar monto" class="pressable"
+            <button id="clearSalaryBtn" type="button" aria-label="Poner monto en cero" class="pressable"
               style="width:1.75rem;height:1.75rem;border-radius:50%;border:none;background:var(--fill-soft);color:var(--text-tertiary);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">
               <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
@@ -1413,9 +1412,6 @@
               Quitar
             </button>
           </div>
-
-          <!-- Presets rápidos centrados -->
-          <div id="quickPresets" class="flex items-center justify-center flex-wrap gap-6 mt-12"></div>
         </section>
 
         <!-- Resumen centrado en 3 columnas: Fijo | Auto % | Ahorro -->
@@ -1434,14 +1430,14 @@
           </div>
         </section>
 
-        <!-- Alerta Inteligente (Déficit / Mes Bajo / Mes Alto) -->
+        <!-- Alerta Inteligente (Déficit) -->
         <section id="variableAlert" class="hidden glass-card p-14"></section>
 
         <!-- Barra de Distribución + Progreso de Transferencias -->
         <section class="glass-card p-16">
           <div class="flex items-center justify-between gap-8 mb-6">
             <span style="font-size:0.84375rem;font-weight:800;">Distribución del pago</span>
-            <span id="doneCounterText" class="txt-blue" style="font-size:0.75rem;font-weight:800;">0 de 6 listas</span>
+            <span id="doneCounterText" class="txt-blue" style="font-size:0.75rem;font-weight:800;">0 de 5 listas</span>
           </div>
 
           <div id="stackedBar" style="width:100%;height:0.75rem;border-radius:999px;overflow:hidden;display:flex;background:var(--fill-soft);"></div>
@@ -1508,7 +1504,7 @@
 
           <div class="flex items-center justify-center gap-8" style="padding:0.375rem 0;border-bottom:1px solid var(--separator);">
             <span id="extraCurrencyPrefix" class="txt-green" style="font-size:1.75rem;font-weight:900;">₡</span>
-            <input id="extraAmountInput" type="text" inputmode="numeric" autocomplete="off" placeholder="50,000"
+            <input id="extraAmountInput" type="text" inputmode="numeric" autocomplete="off" placeholder="0"
               style="width:100%;max-width:13rem;background:transparent;border:none;outline:none;font-size:2rem;font-weight:900;letter-spacing:-0.03em;text-align:center;color:var(--text-primary);"
               aria-label="Monto extra recibido" />
           </div>
@@ -1570,7 +1566,7 @@
       </main>
 
       <!-- ====================================================================
-           PESTAÑA 3: METAS FINANCIERAS (AHORROS ESPECÍFICOS)
+           PESTAÑA 3: METAS FINANCIERAS (INICIA VACÍA DESDE CERO)
            ==================================================================== -->
       <main id="view-goals" class="tab-view">
         <div id="goalsContainer" class="flex flex-col gap-12"></div>
@@ -1584,7 +1580,7 @@
       </main>
 
       <!-- ====================================================================
-           PESTAÑA 5: HISTORIAL
+           PESTAÑA 5: HISTORIAL (INICIA VACÍO EN 0)
            ==================================================================== -->
       <main id="view-history" class="tab-view">
         <section class="glass-card p-20 text-center" style="background:linear-gradient(135deg, rgba(0,122,255,0.90), rgba(14,165,233,0.86));color:#FFFFFF;border-color:rgba(255,255,255,0.35);">
@@ -1594,7 +1590,7 @@
           <p id="totalSavedHero" style="font-size:2.125rem;font-weight:900;letter-spacing:-0.03em;margin:0.375rem 0 0;">₡0</p>
           <div class="flex items-center justify-between gap-8 mt-16" style="padding-top:0.75rem;border-top:1px solid rgba(255,255,255,0.24);font-size:0.8125rem;">
             <span id="historyCountText" style="opacity:0.92;">0 registros</span>
-            <span id="totalIncomeHero" style="font-weight:800;">Recibido: ₡0</span>
+            <span id="totalIncomeHero" style="font-weight:800;">Movimientos: ₡0</span>
           </div>
         </section>
 
@@ -1603,7 +1599,7 @@
       </main>
 
       <!-- ====================================================================
-           PESTAÑA 6: AJUSTES (PERFIL COMPLETO, LETRA, DEUDAS, RUBROS)
+           PESTAÑA 6: AJUSTES (PERFIL COMPLETO, LETRA, DEUDAS, RUBROS, VACIAR A 0)
            ==================================================================== -->
       <main id="view-settings" class="tab-view">
 
@@ -1621,7 +1617,7 @@
 
           <div class="divider mt-12 mb-12"></div>
 
-          <!-- Edición en vivo del perfil -->
+          <!-- Edición reactiva del perfil -->
           <div class="flex flex-col gap-10">
             <div class="grid-2">
               <div>
@@ -1654,7 +1650,7 @@
               </div>
             </div>
 
-            <!-- Tamaño de letra adaptable -->
+            <!-- Tamaño de letra adaptable (0.95 a 1.25) -->
             <div>
               <div class="flex items-center justify-between mb-6">
                 <span class="txt-sec" style="font-size:0.71875rem;font-weight:700;">Tamaño de letra en toda la app</span>
@@ -1662,10 +1658,10 @@
               </div>
               <div id="fontScaleControl" class="segmented cols-4 compact" data-index="1">
                 <div class="segmented-thumb"></div>
-                <button type="button" class="segmented-btn" data-scale="0.92">Pequeña</button>
+                <button type="button" class="segmented-btn" data-scale="0.95">Pequeña</button>
                 <button type="button" class="segmented-btn is-active" data-scale="1">Normal</button>
                 <button type="button" class="segmented-btn" data-scale="1.12">Grande</button>
-                <button type="button" class="segmented-btn" data-scale="1.24">Extra</button>
+                <button type="button" class="segmented-btn" data-scale="1.25">Extra</button>
               </div>
             </div>
           </div>
@@ -1711,10 +1707,10 @@
             </div>
 
             <div id="inlineCustomFixedWrap">
-              <input id="inlineCustomAmount" type="text" inputmode="numeric" placeholder="Monto mensual fijo (ej. 15,000)" class="input-box" />
+              <input id="inlineCustomAmount" type="text" inputmode="numeric" placeholder="Monto mensual fijo (ej. 0)" class="input-box" />
             </div>
             <div id="inlineCustomWeightWrap" class="hidden">
-              <input id="inlineCustomWeight" type="number" min="1" max="50" value="6" placeholder="Peso proporcional (%)" class="input-box" />
+              <input id="inlineCustomWeight" type="number" min="1" max="50" value="5" placeholder="Peso proporcional (%)" class="input-box" />
             </div>
 
             <button id="inlineAddCustomBtn" type="button" class="btn-primary" style="padding:0.75rem 1rem;font-size:0.90625rem;">
@@ -1728,7 +1724,7 @@
           <div class="flex items-center justify-between gap-8 mb-10">
             <div>
               <h2 style="font-size:1rem;font-weight:800;margin:0;">Mis Deudas</h2>
-              <p class="txt-sec" style="font-size:0.75rem;margin:0.125rem 0 0;">Con saldo, tasa anual (% APR) y plazo estimado</p>
+              <p class="txt-sec" style="font-size:0.75rem;margin:0.125rem 0 0;">Con saldo, tasa anual (% APR/TEA) y plazo en meses</p>
             </div>
             <button id="settingsAddDebtBtn" type="button" class="mini-pill-btn shrink-0" style="background:rgba(220,38,38,0.14);color:var(--ios-red);padding:0.38rem 0.75rem;">
               + Agregar
@@ -1747,16 +1743,20 @@
         <!-- Servicios, Suscripciones y Otros Gastos -->
         <section class="glass-card p-16">
           <h2 style="font-size:1rem;font-weight:800;margin:0;">Servicios y Otros Gastos</h2>
-          <p class="txt-sec" style="font-size:0.75rem;margin:0.2rem 0 0.75rem;">Teléfono, internet, agua, luz, suscripciones y tus gastos propios</p>
+          <p class="txt-sec" style="font-size:0.75rem;margin:0.2rem 0 0.75rem;">Inician pausados en 0 hasta que los actives</p>
           <div id="settingsServicesList" class="flex flex-col gap-12"></div>
         </section>
 
-        <!-- Acciones rápidas: Tour, Onboarding, Restaurar -->
+        <!-- Acciones rápidas: Vaciar a cero, Tour, Onboarding, Restaurar -->
         <section class="glass-card p-16 flex flex-col gap-10">
           <div class="flex items-center justify-between gap-8" style="padding:0.625rem 0.75rem;border-radius:0.875rem;background:var(--fill-soft);font-size:0.8125rem;">
             <span class="txt-sec" style="font-weight:600;">Compromisos fijos mensuales:</span>
             <span id="settingsFixedTotal" style="font-weight:900;font-size:0.9375rem;">₡0</span>
           </div>
+
+          <button id="clearAllToZeroBtn" type="button" class="btn-primary btn-red w-full">
+            🧹 Vaciar todo a cero (0)
+          </button>
 
           <button id="replayWalkthroughBtn" type="button" class="btn-glass w-full">
             ✨ Ver Tour Animado de la app
@@ -1767,7 +1767,7 @@
           </button>
 
           <button id="restoreDefaultsBtn" type="button" class="btn-glass w-full txt-red">
-            Restaurar valores por defecto
+            Restaurar valores base
           </button>
         </section>
 
@@ -1837,13 +1837,13 @@
   </div>
 
   <!-- ========================================================================
-       MODAL 1: ONBOARDING INICIAL DE 5 PASOS (SOLO LA PRIMERA VEZ)
+       MODAL 1: ONBOARDING INICIAL DESDE CERO (SIN VALORES PRELLENADOS)
        ======================================================================== -->
   <div id="onboardingModal" class="fullscreen-modal" role="dialog" aria-modal="true" aria-label="Configuración inicial">
     <div class="glass-card-strong onboarding-card">
       <div class="flex items-center justify-between mb-10">
         <span id="obStepCounter" class="wt-badge">Paso 1 de 5</span>
-        <button id="obSkipBtn" type="button" class="wt-skip-btn">Saltar</button>
+        <button id="obSkipBtn" type="button" class="wt-skip-btn">Empezar en 0</button>
       </div>
 
       <div class="ob-progress-track">
@@ -1883,12 +1883,12 @@
                   <span>Semanal</span>
                 </div>
                 <p style="font-size:0.65rem;color:var(--text-tertiary);font-weight:700;margin:0 0 0.125rem;">Pago neto recibido</p>
-                <div id="wtDemoSalaryNum" class="demo-salary-num">₡480,000</div>
+                <div id="wtDemoSalaryNum" class="demo-salary-num">₡0</div>
                 <div class="demo-wave-bar"><div class="demo-wave-fill"></div></div>
               </div>
             </div>
-            <h3 class="wt-title">Salario Variable al Instante</h3>
-            <p class="wt-desc">Alterna entre Mensual, Quincenal o Semanal y escribe el monto exacto. Todo se recalcula automáticamente.</p>
+            <h3 class="wt-title">Empieza Desde Cero</h3>
+            <p class="wt-desc">Escribe tu monto real cuando lo recibas y alterna entre Mensual, Quincenal o Semanal sin datos inventados.</p>
           </div>
 
           <!-- DIAPOSITIVA 2: SOBRES INTELIGENTES -->
@@ -1929,13 +1929,13 @@
               </div>
             </div>
             <h3 class="wt-title">Sobres y Metas Conectadas</h3>
-            <p class="wt-desc">Bloquea tus <strong>🔒 Fijos</strong>, detalla intereses y plazos en deudas y haz crecer tus metas específicas.</p>
+            <p class="wt-desc">Configura tus <strong>🔒 Fijos</strong>, detalla intereses y plazos en deudas y crea tus propias metas cuando quieras.</p>
           </div>
 
           <!-- DIAPOSITIVA 3: DINEROS EXTRAS -->
           <div class="wt-slide">
             <div class="wt-stage">
-              <div id="wtDemoExtraPill" class="demo-extra-pill">+₡50,000</div>
+              <div id="wtDemoExtraPill" class="demo-extra-pill">+₡0</div>
               <div class="demo-extra-grid">
                 <div class="demo-extra-box">
                   <div style="font-size:1.1rem;">🛡️</div>
@@ -1993,13 +1993,13 @@
                 <div class="demo-coin usd">$</div>
               </div>
               <div class="demo-emoji-row">
-                <span class="demo-tag-pill">Aa Letra 92%–124%</span>
+                <span class="demo-tag-pill">Aa Letra 95%–125%</span>
                 <span class="demo-tag-pill">🚗 Carro / Viaje</span>
-                <span class="demo-tag-pill">🐶 + Otro gasto</span>
+                <span class="demo-tag-pill">🧹 Vaciar a 0</span>
               </div>
             </div>
             <h3 class="wt-title">100% Nítido y a tu Medida</h3>
-            <p class="wt-desc">Ajusta el tamaño de letra sin que se corte nada, cambia entre ₡ y $ y personaliza metas y gastos.</p>
+            <p class="wt-desc">Ajusta el tamaño de letra sin que se corte nada, cambia entre ₡ y $ y vacía todo a cero cuando quieras.</p>
           </div>
 
         </div>
@@ -2050,7 +2050,7 @@
           <label for="sheetFixedInput" class="txt-sec" style="font-size:0.78125rem;font-weight:700;">Monto fijo mensual</label>
           <div class="flex items-center gap-8 input-box" style="padding:0.625rem 0.875rem;">
             <span id="sheetCurrSym" class="txt-blue" style="font-size:1.25rem;font-weight:900;">₡</span>
-            <input id="sheetFixedInput" type="text" inputmode="numeric" autocomplete="off"
+            <input id="sheetFixedInput" type="text" inputmode="numeric" autocomplete="off" placeholder="0"
               style="width:100%;background:transparent;border:none;outline:none;font-size:1.375rem;font-weight:800;color:var(--text-primary);" />
           </div>
           <p id="sheetFixedHint" class="txt-sec" style="font-size:0.75rem;margin:0;"></p>
@@ -2096,7 +2096,7 @@
 
         <div>
           <label for="debtNameInput" class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.35rem;">Nombre de la deuda</label>
-          <input id="debtNameInput" type="text" maxlength="36" placeholder="Ej. Tarjeta BAC, Préstamo personal, Carro..." class="input-box" />
+          <input id="debtNameInput" type="text" maxlength="36" placeholder="Ej. Tarjeta, Préstamo personal, Carro..." class="input-box" />
         </div>
 
         <div class="grid-2">
@@ -2104,25 +2104,25 @@
             <label for="debtAmountInput" class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.35rem;">Cuota mensual</label>
             <div class="flex items-center gap-6 input-box" style="padding:0.55rem 0.75rem;">
               <span id="debtCurrSym" class="txt-red" style="font-size:1.125rem;font-weight:900;">₡</span>
-              <input id="debtAmountInput" type="text" inputmode="numeric" placeholder="32,000"
+              <input id="debtAmountInput" type="text" inputmode="numeric" placeholder="0"
                 style="width:100%;background:transparent;border:none;outline:none;font-size:1.125rem;font-weight:800;color:var(--text-primary);" />
             </div>
           </div>
 
           <div>
             <label for="debtBalanceInput" class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.35rem;">Saldo pendiente total</label>
-            <input id="debtBalanceInput" type="text" inputmode="numeric" placeholder="Ej. 450,000" class="input-box" />
+            <input id="debtBalanceInput" type="text" inputmode="numeric" placeholder="0" class="input-box" />
           </div>
         </div>
 
         <div class="grid-2">
           <div>
-            <label for="debtAprInput" class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.35rem;">Tasa anual aprox. (%)</label>
-            <input id="debtAprInput" type="number" min="0" max="120" step="0.5" placeholder="Ej. 18" class="input-box" />
+            <label for="debtAprInput" class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.35rem;">Tasa anual (APR/TEA %)</label>
+            <input id="debtAprInput" type="number" min="0" max="120" step="0.5" placeholder="0" class="input-box" />
           </div>
           <div>
-            <label for="debtTermInput" class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.35rem;">Plazo estimado (meses)</label>
-            <input id="debtTermInput" type="number" min="1" max="360" step="1" placeholder="Auto o ej. 18" class="input-box" />
+            <label for="debtTermInput" class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.35rem;">Plazo (meses)</label>
+            <input id="debtTermInput" type="number" min="1" max="360" step="1" placeholder="12" class="input-box" />
           </div>
         </div>
 
@@ -2148,7 +2148,7 @@
   </div>
 
   <!-- ========================================================================
-       BOTTOM SHEET 3: CREAR / APORTAR A META FINANCIERA
+       BOTTOM SHEET 3: CREAR / EDITAR META FINANCIERA
        ======================================================================== -->
   <div id="goalSheet" class="sheet-backdrop" role="dialog" aria-modal="true">
     <div class="sheet-panel">
@@ -2161,13 +2161,13 @@
 
         <div>
           <label for="goalNameInput" class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.35rem;">Nombre de la meta</label>
-          <input id="goalNameInput" type="text" maxlength="34" placeholder="Ej. Carro, Viaje a Europa, Fondo emergencia..." class="input-box" />
+          <input id="goalNameInput" type="text" maxlength="34" placeholder="Ej. Carro, Viaje, Fondo emergencia..." class="input-box" />
         </div>
 
         <div class="grid-2">
           <div>
             <label for="goalEmojiInput" class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.35rem;">Emoji</label>
-            <input id="goalEmojiInput" type="text" maxlength="4" value="🚗" class="input-box text-center" style="font-size:1.125rem;" />
+            <input id="goalEmojiInput" type="text" maxlength="4" value="🎯" class="input-box text-center" style="font-size:1.125rem;" />
           </div>
           <div>
             <label for="goalMonthsInput" class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.35rem;">Plazo meta (meses)</label>
@@ -2178,11 +2178,11 @@
         <div class="grid-2">
           <div>
             <label for="goalTargetInput" class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.35rem;">Monto objetivo</label>
-            <input id="goalTargetInput" type="text" inputmode="numeric" placeholder="1,500,000" class="input-box" />
+            <input id="goalTargetInput" type="text" inputmode="numeric" placeholder="0" class="input-box" />
           </div>
           <div>
-            <label for="goalSavedInput" class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.35rem;">Ya ahorrado</label>
-            <input id="goalSavedInput" type="text" inputmode="numeric" placeholder="150,000" class="input-box" />
+            <label for="goalSavedInput" class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.35rem;">Ahorrado hasta hoy</label>
+            <input id="goalSavedInput" type="text" inputmode="numeric" placeholder="0" class="input-box" />
           </div>
         </div>
 
@@ -2254,16 +2254,16 @@
   </div>
 
   <!-- ========================================================================
-       LÓGICA DE LA APLICACIÓN (100% REACTIVA + LOCALSTORAGE)
+       LÓGICA DE LA APLICACIÓN (100% DESDE CERO Y REACTIVA + LOCALSTORAGE)
        ======================================================================== -->
   <script>
     (function () {
       'use strict';
 
       /* ----------------------------------------------------------------------
-         1. CONSTANTES Y CONFIGURACIÓN BASE
+         1. CONSTANTES Y ESTADO INICIAL ESTRICTAMENTE EN CERO (0) / VACÍO
          ---------------------------------------------------------------------- */
-      const STORAGE_KEY = 'mi_salario_liquid_v5';
+      const STORAGE_KEY = 'mi_salario_zero_v1';
       const TABS_ORDER = ['split', 'extras', 'goals', 'advice', 'history', 'settings'];
 
       const CORE_CATEGORIES = [
@@ -2276,87 +2276,77 @@
 
       const EMOJI_CHOICES = ['🎯', '🚗', '✈️', '🛡️', '🏋️', '🎬', '🐶', '📱', '📶', '💧', '⚡', '🏥', '📚', '🎮', '☕', '🏡'];
 
-      function defaultCore() {
+      function zeroCore() {
         return {
-          housing:   { mode: 'variable', fixedAmount: 120000, weight: 27 },
-          food:      { mode: 'variable', fixedAmount: 96000,  weight: 21 },
-          transport: { mode: 'variable', fixedAmount: 60000,  weight: 13 },
-          couple:    { mode: 'variable', fixedAmount: 76000,  weight: 17 },
-          savings:   { mode: 'variable', fixedAmount: 96000,  weight: 22 }
+          housing:   { mode: 'variable', fixedAmount: 0, weight: 25 },
+          food:      { mode: 'variable', fixedAmount: 0, weight: 25 },
+          transport: { mode: 'variable', fixedAmount: 0, weight: 20 },
+          couple:    { mode: 'variable', fixedAmount: 0, weight: 15 },
+          savings:   { mode: 'variable', fixedAmount: 0, weight: 15 }
         };
       }
 
-      function defaultDebts() {
+      function zeroServices() {
         return [
-          { id: 'debt_main', name: 'Tarjeta / Préstamo principal', amount: 32000, balance: 280000, apr: 18, termMonths: 10, active: true }
+          { id: 'srv_phone',    name: 'Teléfono',      emoji: '📱', color: '#5856D6', mode: 'unused', fixedAmount: 0, weight: 3, isEssential: true,  custom: false },
+          { id: 'srv_internet', name: 'Internet casa', emoji: '📶', color: '#007AFF', mode: 'unused', fixedAmount: 0, weight: 5, isEssential: true,  custom: false },
+          { id: 'srv_water',    name: 'Agua',          emoji: '💧', color: '#0EA5E9', mode: 'unused', fixedAmount: 0, weight: 2, isEssential: true,  custom: false },
+          { id: 'srv_electric', name: 'Luz',           emoji: '⚡', color: '#FF9500', mode: 'unused', fixedAmount: 0, weight: 4, isEssential: true,  custom: false },
+          { id: 'srv_subs',     name: 'Suscripciones', emoji: '🎬', color: '#FF2D55', mode: 'unused', fixedAmount: 0, weight: 3, isEssential: false, custom: false }
         ];
       }
 
-      function defaultGoals() {
-        return [
-          { id: 'goal_emerg', name: 'Fondo de emergencia', emoji: '🛡️', target: 450000, saved: 90000, months: 12, color: '#0EA5E9' },
-          { id: 'goal_trip',  name: 'Viaje / Vacaciones',    emoji: '✈️', target: 300000, saved: 65000, months: 8,  color: '#AF52DE' },
-          { id: 'goal_car',   name: 'Aporte para carro',     emoji: '🚗', target: 1500000, saved: 210000, months: 24, color: '#28C76F' }
-        ];
-      }
-
-      function defaultServices() {
-        return [
-          { id: 'srv_phone',    name: 'Teléfono',      emoji: '📱', color: '#5856D6', mode: 'unused', fixedAmount: 12000, weight: 3, isEssential: true,  custom: false },
-          { id: 'srv_internet', name: 'Internet casa', emoji: '📶', color: '#007AFF', mode: 'unused', fixedAmount: 22000, weight: 5, isEssential: true,  custom: false },
-          { id: 'srv_water',    name: 'Agua',          emoji: '💧', color: '#0EA5E9', mode: 'unused', fixedAmount: 8000,  weight: 2, isEssential: true,  custom: false },
-          { id: 'srv_electric', name: 'Luz',           emoji: '⚡', color: '#FF9500', mode: 'unused', fixedAmount: 15000, weight: 4, isEssential: true,  custom: false },
-          { id: 'srv_subs',     name: 'Suscripciones', emoji: '🎬', color: '#FF2D55', mode: 'unused', fixedAmount: 10000, weight: 3, isEssential: false, custom: false }
-        ];
+      function createFreshZeroState(keepAppearance = true) {
+        return {
+          activeTab: 'split',
+          prevTabIndex: 0,
+          currency: keepAppearance && state ? state.currency : 'CRC',
+          exchangeRate: keepAppearance && state ? state.exchangeRate : 510,
+          period: 'monthly',
+          salary: 0,
+          fontScale: keepAppearance && state ? state.fontScale : 1,
+          lowMonthMode: false,
+          darkMode: keepAppearance && state ? state.darkMode : false,
+          debtsExpanded: true,
+          unusedExpanded: false,
+          checkedKeys: {},
+          profile: {
+            name: '',
+            age: '',
+            goal: 'balance',
+            risk: 'moderate'
+          },
+          debtSim: {
+            extraMonthly: 0,
+            strategy: 'avalanche'
+          },
+          marketSim: {
+            profile: 'moderate',
+            monthlyContrib: 0,
+            initialSum: 0,
+            years: 5
+          },
+          onboardingDone: false,
+          walkthroughDone: false,
+          core: zeroCore(),
+          debts: [],
+          goals: [],
+          services: zeroServices(),
+          extraDraft: {
+            amount: 0,
+            concept: '',
+            strategy: 'smart',
+            checkedBuckets: {}
+          },
+          connectedExtra: null,
+          history: []
+        };
       }
 
       /* ----------------------------------------------------------------------
          2. ESTADO GLOBAL Y PERSISTENCIA
          ---------------------------------------------------------------------- */
-      let state = {
-        activeTab: 'split',
-        prevTabIndex: 0,
-        currency: 'CRC',
-        exchangeRate: 510,
-        period: 'monthly',
-        salary: 480000,
-        fontScale: 1,
-        lowMonthMode: false,
-        darkMode: false,
-        debtsExpanded: true,
-        unusedExpanded: false,
-        checkedKeys: {},
-        profile: {
-          name: '',
-          age: '',
-          goal: 'balance',
-          risk: 'moderate' // 'conservative' | 'moderate' | 'aggressive'
-        },
-        debtSim: {
-          extraMonthly: 20000,
-          strategy: 'avalanche' // 'avalanche' | 'snowball'
-        },
-        marketSim: {
-          profile: 'moderate', // 'conservative' | 'moderate' | 'growth'
-          monthlyContrib: 50000,
-          initialSum: 0,
-          years: 5
-        },
-        onboardingDone: false,
-        walkthroughDone: false,
-        core: defaultCore(),
-        debts: defaultDebts(),
-        goals: defaultGoals(),
-        services: defaultServices(),
-        extraDraft: {
-          amount: 50000,
-          concept: 'Horas extra',
-          strategy: 'smart',
-          checkedBuckets: {}
-        },
-        connectedExtra: null,
-        history: []
-      };
+      let state = createFreshZeroState(false);
 
       let editingItemRef = null;
       let editingDebtId = null;
@@ -2383,8 +2373,8 @@
           state.currency = p.currency === 'USD' ? 'USD' : 'CRC';
           state.exchangeRate = Math.max(1, Number(p.exchangeRate) || 510);
           state.period = ['monthly', 'biweekly', 'weekly'].includes(p.period) ? p.period : 'monthly';
-          state.salary = Math.max(0, Number(p.salary) || 0);
-          state.fontScale = [0.92, 1, 1.12, 1.24].includes(Number(p.fontScale)) ? Number(p.fontScale) : 1;
+          state.salary = Math.max(0, Math.round(Number(p.salary) || 0));
+          state.fontScale = [0.95, 1, 1.12, 1.25].includes(Number(p.fontScale)) ? Number(p.fontScale) : 1;
           state.lowMonthMode = Boolean(p.lowMonthMode);
           state.darkMode = Boolean(p.darkMode);
           state.checkedKeys = p.checkedKeys && typeof p.checkedKeys === 'object' ? p.checkedKeys : {};
@@ -2411,14 +2401,14 @@
           if (p.marketSim && typeof p.marketSim === 'object') {
             state.marketSim = {
               profile: ['conservative', 'moderate', 'growth'].includes(p.marketSim.profile) ? p.marketSim.profile : 'moderate',
-              monthlyContrib: Math.max(0, Math.round(Number(p.marketSim.monthlyContrib) ?? 50000)),
+              monthlyContrib: Math.max(0, Math.round(Number(p.marketSim.monthlyContrib) || 0)),
               initialSum: Math.max(0, Math.round(Number(p.marketSim.initialSum) || 0)),
               years: [1, 3, 5, 10, 20].includes(Number(p.marketSim.years)) ? Number(p.marketSim.years) : 5
             };
           }
 
           if (p.core && typeof p.core === 'object') {
-            const def = defaultCore();
+            const def = zeroCore();
             CORE_CATEGORIES.forEach(c => {
               const sc = p.core[c.key];
               if (sc && typeof sc === 'object') {
@@ -2437,8 +2427,8 @@
               id: String(d.id || 'debt_' + Math.random().toString(36).slice(2, 7)),
               name: String(d.name || 'Deuda'),
               amount: Math.max(0, Math.round(Number(d.amount) || 0)),
-              balance: Math.max(0, Math.round(Number(d.balance) || Number(d.amount) * 8 || 0)),
-              apr: Math.max(0, Math.min(120, Number(d.apr) || 16)),
+              balance: Math.max(0, Math.round(Number(d.balance) || 0)),
+              apr: Math.max(0, Math.min(120, Number(d.apr) || 0)),
               termMonths: Math.max(1, Math.min(360, parseInt(d.termMonths, 10) || 12)),
               active: Boolean(d.active)
             }));
@@ -2449,7 +2439,7 @@
               id: String(g.id || 'goal_' + Math.random().toString(36).slice(2, 7)),
               name: String(g.name || 'Meta'),
               emoji: String(g.emoji || '🎯'),
-              target: Math.max(100, Math.round(Number(g.target) || 100000)),
+              target: Math.max(1, Math.round(Number(g.target) || 0)),
               saved: Math.max(0, Math.round(Number(g.saved) || 0)),
               months: Math.max(1, parseInt(g.months, 10) || 12),
               color: String(g.color || '#0EA5E9')
@@ -2480,7 +2470,7 @@
           if (p.extraDraft && typeof p.extraDraft === 'object') {
             state.extraDraft = {
               amount: Math.max(0, Math.round(Number(p.extraDraft.amount) || 0)),
-              concept: String(p.extraDraft.concept || 'Horas extra'),
+              concept: String(p.extraDraft.concept || ''),
               strategy: ['smart', 'wealth', 'debt'].includes(p.extraDraft.strategy) ? p.extraDraft.strategy : 'smart',
               checkedBuckets: p.extraDraft.checkedBuckets || {}
             };
@@ -2517,6 +2507,17 @@
         } catch (err) {
           console.warn('Error guardando estado:', err);
         }
+      }
+
+      function wipeEverythingToZero() {
+        state = createFreshZeroState(true);
+        state.onboardingDone = true;
+        state.walkthroughDone = true;
+        saveState();
+        applyFontScale();
+        applyTheme();
+        renderActiveTab();
+        showToast('Todo vaciado a cero (0) ✓');
       }
 
       /* ----------------------------------------------------------------------
@@ -2636,7 +2637,6 @@
             months = 360;
             totalInterest = Math.round(bal * r * 36);
           } else {
-            // Simulación mes a mes hasta liquidar
             let rem = bal;
             let m = 0;
             let accInt = 0;
@@ -2671,7 +2671,7 @@
         function runSim(extraAdd) {
           const items = active.map(d => ({
             id: d.id,
-            bal: Math.max(1, Number(d.balance) || (Number(d.amount) * 8)),
+            bal: Math.max(1, Number(d.balance) || (Number(d.amount) * 6)),
             pmt: Math.max(1, Number(d.amount) || 1),
             r: (Math.max(0, Number(d.apr) || 0) / 100) / 12
           }));
@@ -2727,7 +2727,7 @@
         const totalIncome = baseSalary + connectedAmt;
 
         const monthlyLowRef = state.currency === 'USD' ? 800 : 400000;
-        const monthlyHighRef = state.currency === 'USD' ? 1100 : 520000;
+        const monthlyHighRef = state.currency === 'USD' ? 1200 : 600000;
         const isLowPeriod = totalIncome > 0 && totalIncome < (monthlyLowRef / div);
         const isHighPeriod = totalIncome > (monthlyHighRef / div);
         const effectiveLowMode = isLowPeriod && state.lowMonthMode;
@@ -2877,11 +2877,11 @@
         document.documentElement.style.setProperty('--font-scale', String(state.fontScale));
         const pct = Math.round(state.fontScale * 100);
         const lbl = document.getElementById('fontScaleLabel');
-        if (lbl) lbl.textContent = `${pct === 92 ? 'Pequeña' : pct === 100 ? 'Normal' : pct === 112 ? 'Grande' : 'Extra Grande'} (${pct}%)`;
+        if (lbl) lbl.textContent = `${pct <= 95 ? 'Pequeña' : pct === 100 ? 'Normal' : pct === 112 ? 'Grande' : 'Extra Grande'} (${pct}%)`;
 
         const ctrl = document.getElementById('fontScaleControl');
         if (ctrl) {
-          const map = { 0.92: 0, 1: 1, 1.12: 2, 1.24: 3 };
+          const map = { 0.95: 0, 1: 1, 1.12: 2, 1.25: 3 };
           setSegmentedIndex(ctrl, map[state.fontScale] ?? 1);
         }
       }
@@ -2906,8 +2906,8 @@
         document.getElementById('debtCurrSym').textContent = sym;
         document.getElementById('settingsCurrencyLabel').textContent = state.currency === 'USD' ? '$ Dólares' : '₡ Colones';
 
-        document.getElementById('wtDemoSalaryNum').textContent = state.currency === 'USD' ? '$1,200' : '₡480,000';
-        document.getElementById('wtDemoExtraPill').textContent = state.currency === 'USD' ? '+$100' : '+₡50,000';
+        document.getElementById('wtDemoSalaryNum').textContent = sym + '0';
+        document.getElementById('wtDemoExtraPill').textContent = '+' + sym + '0';
       }
 
       /* ----------------------------------------------------------------------
@@ -2921,37 +2921,14 @@
         });
       }
 
-      function renderQuickPresets() {
-        const div = getPeriodDivisor();
-        const basePresets = state.currency === 'USD' ? [800, 1200, 1600] : [360000, 480000, 600000];
-        const presets = basePresets.map(v => Math.round(v / div));
-
-        const container = document.getElementById('quickPresets');
-        container.innerHTML = presets.map(val => `
-          <button type="button" class="chip-btn ${state.salary === val ? 'selected' : ''}" data-preset="${val}">
-            ${fmtMoney(val)}
-          </button>
-        `).join('');
-
-        container.querySelectorAll('button[data-preset]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            state.salary = parseInt(btn.dataset.preset, 10);
-            document.getElementById('salaryInput').value = fmtInput(state.salary);
-            saveState();
-            renderSplitView();
-          });
-        });
-      }
-
       function renderSplitView() {
         const dist = computeDistribution();
         syncCurrencyUI();
 
         const name = state.profile.name.trim();
-        const riskText = state.profile.risk === 'conservative' ? 'Perfil Conservador' : (state.profile.risk === 'aggressive' ? 'Perfil Crecimiento' : 'Perfil Moderado');
         document.getElementById('greetingLine').textContent = name
-          ? `Hola, ${name} · ${riskText}`
-          : `Organiza tu pago con claridad · ${riskText}`;
+          ? `Hola, ${name} · Empieza desde cero con tus números`
+          : 'Empieza desde cero · Escribe tu monto recibido';
 
         const pIdx = state.period === 'monthly' ? 0 : (state.period === 'biweekly' ? 1 : 2);
         setSegmentedIndex(document.getElementById('periodControl'), pIdx);
@@ -2963,8 +2940,6 @@
         if (document.activeElement !== salInput) {
           salInput.value = state.salary > 0 ? fmtInput(state.salary) : '';
         }
-
-        renderQuickPresets();
 
         const extraBanner = document.getElementById('connectedExtraBanner');
         if (state.connectedExtra && state.connectedExtra.amount > 0) {
@@ -2993,49 +2968,6 @@
               <div>
                 <p class="txt-red" style="font-size:0.84375rem;font-weight:800;margin:0;">Tus fijos superan este pago por ${fmtMoney(dist.fixedShortfall)}</p>
                 <p class="txt-sec" style="font-size:0.75rem;margin:0.2rem 0 0;">Pasa algún gasto a "🚫 No uso" o conecta un ingreso extra.</p>
-              </div>
-            </div>
-          `;
-        } else if (dist.isLowPeriod) {
-          const coupleAuto = state.core.couple.mode === 'variable';
-          alertEl.className = 'glass-card p-14';
-          alertEl.style.borderColor = 'rgba(217,119,6,0.45)';
-          alertEl.style.background = 'rgba(217,119,6,0.10)';
-          alertEl.innerHTML = `
-            <div class="flex items-center justify-between gap-10">
-              <div>
-                <p class="txt-orange" style="font-size:0.84375rem;font-weight:800;margin:0;">Pago bajo: protege lo esencial</p>
-                <p class="txt-sec" style="font-size:0.75rem;margin:0.15rem 0 0;">
-                  ${coupleAuto ? 'Activa Modo Mes Bajo para recortar salidas y cuidar comida/ahorro.' : 'Puedes bajar o pausar salidas tocando su insignia.'}
-                </p>
-              </div>
-              ${coupleAuto ? `
-                <label class="ios-switch" aria-label="Activar Modo Mes Bajo">
-                  <input id="lowMonthToggle" type="checkbox" ${state.lowMonthMode ? 'checked' : ''} />
-                  <span class="ios-switch-track"></span>
-                </label>
-              ` : ''}
-            </div>
-          `;
-          const lowT = document.getElementById('lowMonthToggle');
-          if (lowT) {
-            lowT.addEventListener('change', (e) => {
-              state.lowMonthMode = e.target.checked;
-              saveState();
-              renderSplitView();
-              showToast(state.lowMonthMode ? 'Modo Mes Bajo activado' : 'Reparto normal restaurado');
-            });
-          }
-        } else if (dist.isHighPeriod) {
-          alertEl.className = 'glass-card p-14';
-          alertEl.style.borderColor = 'rgba(24,169,87,0.45)';
-          alertEl.style.background = 'rgba(24,169,87,0.10)';
-          alertEl.innerHTML = `
-            <div class="flex items-start gap-10">
-              <span style="font-size:1.25rem;">🚀</span>
-              <div>
-                <p class="txt-green" style="font-size:0.84375rem;font-weight:800;margin:0;">¡Excelente pago! Impulsa tu futuro</p>
-                <p class="txt-sec" style="font-size:0.75rem;margin:0.15rem 0 0;">Hoy destinas <strong>${fmtMoney(dist.amounts.savings || 0)}</strong> a ahorro e inversión.</p>
               </div>
             </div>
           `;
@@ -3182,7 +3114,7 @@
         const detailsHtml = state.debtsExpanded ? `
           <div class="flex flex-col gap-10 mt-12" style="padding-top:0.65rem;border-top:1px solid var(--separator);">
             ${state.debts.length === 0
-              ? `<p class="txt-sec" style="font-size:0.8125rem;margin:0;">Sin deudas registradas. ¡Excelente!</p>`
+              ? `<p class="txt-sec" style="font-size:0.78125rem;margin:0;">Sin deudas registradas (0). Agrega una cuando la necesites con cuota, saldo, tasa y plazo.</p>`
               : state.debts.map(d => {
                   const pAmt = Math.round(d.amount / dist.div);
                   const info = analyzeDebt(d);
@@ -3211,7 +3143,6 @@
                 }).join('')}
 
             ${activeCount > 0 ? `
-              <!-- Simulador Reactivo de Adelantos y Estrategia -->
               <div style="padding:0.75rem;border-radius:1rem;background:var(--fill-soft);border:1px solid var(--glass-border-soft);">
                 <div class="flex items-center justify-between gap-8 mb-8">
                   <span style="font-size:0.78125rem;font-weight:800;">⚡ Simulador de adelanto mensual</span>
@@ -3263,7 +3194,7 @@
                   <span class="badge-pill" style="background:rgba(220,38,38,0.13);color:var(--ios-red);cursor:default;">${fixedTag}</span>
                 </div>
                 <button type="button" id="toggleDebtsBtn" class="txt-blue" style="border:none;background:transparent;padding:0;font-size:0.75rem;font-weight:700;cursor:pointer;margin-top:0.125rem;">
-                  ${state.debtsExpanded ? 'Ocultar detalle y simulador ▲' : 'Ver detalle, interés y simulador ▼'}
+                  ${state.debtsExpanded ? 'Ocultar detalle ▲' : 'Ver detalle / agregar deuda ▼'}
                 </button>
               </div>
 
@@ -3309,7 +3240,6 @@
 
         const simIn = document.getElementById('debtExtraSimInput');
         if (simIn) {
-          const caret = simIn.selectionStart;
           simIn.addEventListener('input', (e) => {
             const v = parseNum(e.target.value);
             state.debtSim.extraMonthly = v;
@@ -3322,7 +3252,6 @@
               try { reIn.setSelectionRange(reIn.value.length, reIn.value.length); } catch (_) {}
             }
           });
-          void caret;
         }
       }
 
@@ -3337,7 +3266,7 @@
         const buckets = [];
         let rem = amt;
 
-        if (amt <= 0) return { buckets: [], title: 'Ingresa un monto extra', subtitle: 'Te sugeriremos el mejor reparto', savingsPortion: 0 };
+        if (amt <= 0) return { buckets: [], title: 'Ingresa un monto extra', subtitle: 'Empieza en 0 · Escribe un monto para ver el desglose', savingsPortion: 0 };
 
         if (strat === 'smart') {
           if (shortfall > 0 && rem > 0) {
@@ -3405,10 +3334,10 @@
           ctx.innerHTML = `<p class="txt-red" style="font-size:0.8125rem;font-weight:800;margin:0;">⚠️ Déficit de ${fmtMoney(dist.fixedShortfall)} en Dividir</p><p class="txt-sec" style="font-size:0.75rem;margin:0.1875rem 0 0;">Conecta este extra para cubrir tus fijos sin estrés.</p>`;
         } else if (dist.activeDebts.length > 0) {
           ctx.style.borderColor = 'rgba(0,122,255,0.35)';
-          ctx.innerHTML = `<p class="txt-blue" style="font-size:0.8125rem;font-weight:800;margin:0;">💡 Tu salario ya cubre tus fijos</p><p class="txt-sec" style="font-size:0.75rem;margin:0.1875rem 0 0;">Tienes ${dist.activeDebts.length} ${dist.activeDebts.length === 1 ? 'deuda activa' : 'deudas activas'}. Este extra puede reducirlas o potenciar tu ahorro.</p>`;
+          ctx.innerHTML = `<p class="txt-blue" style="font-size:0.8125rem;font-weight:800;margin:0;">💡 Tienes ${dist.activeDebts.length} ${dist.activeDebts.length === 1 ? 'deuda activa' : 'deudas activas'}</p><p class="txt-sec" style="font-size:0.75rem;margin:0.1875rem 0 0;">Elige cómo repartir cualquier ingreso extra que recibas.</p>`;
         } else {
           ctx.style.borderColor = 'rgba(24,169,87,0.4)';
-          ctx.innerHTML = `<p class="txt-green" style="font-size:0.8125rem;font-weight:800;margin:0;">✨ Terreno libre para invertir</p><p class="txt-sec" style="font-size:0.75rem;margin:0.1875rem 0 0;">Sin déficit ni deudas activas: aprovecha para hacer crecer tu capital.</p>`;
+          ctx.innerHTML = `<p class="txt-green" style="font-size:0.8125rem;font-weight:800;margin:0;">✨ Listo para repartir tus extras</p><p class="txt-sec" style="font-size:0.75rem;margin:0.1875rem 0 0;">Escribe un monto arriba para calcular el desglose o conectarlo a Dividir.</p>`;
         }
 
         document.getElementById('extraStrategyTitle').textContent = plan.title;
@@ -3417,7 +3346,7 @@
 
         const listEl = document.getElementById('extraBreakdownList');
         if (plan.buckets.length === 0) {
-          listEl.innerHTML = `<p class="txt-sec text-center" style="font-size:0.8125rem;padding:0.75rem 0;">Escribe un monto arriba para ver tu reparto sugerido.</p>`;
+          listEl.innerHTML = `<p class="txt-sec text-center" style="font-size:0.8125rem;padding:0.75rem 0;">Monto extra actual: <strong>${fmtMoney(0)}</strong>. Escribe un número arriba para comenzar.</p>`;
         } else {
           listEl.innerHTML = plan.buckets.map(b => {
             const chk = Boolean(state.extraDraft.checkedBuckets[b.key]);
@@ -3459,16 +3388,12 @@
       }
 
       /* ----------------------------------------------------------------------
-         8. RENDER PESTAÑA 3: METAS FINANCIERAS (AHORROS ESPECÍFICOS)
+         8. RENDER PESTAÑA 3: METAS FINANCIERAS (INICIA EN 0 / VACÍA)
          ---------------------------------------------------------------------- */
       function renderGoalsView() {
-        const dist = computeDistribution();
-        const monthlySavingsAvailable = (dist.amounts.savings || 0) * dist.div;
         const totalTarget = state.goals.reduce((s, g) => s + g.target, 0);
         const totalSaved = state.goals.reduce((s, g) => s + g.saved, 0);
         const overallPct = totalTarget > 0 ? Math.min(100, Math.round((totalSaved / totalTarget) * 100)) : 0;
-
-        const quickStep = state.currency === 'USD' ? 25 : 15000;
 
         const cardsHtml = state.goals.map(g => {
           const pct = g.target > 0 ? Math.min(100, Math.round((g.saved / g.target) * 100)) : 0;
@@ -3483,7 +3408,7 @@
                   <div class="min-w-0">
                     <h3 class="truncate" style="font-size:0.96875rem;font-weight:800;margin:0;">${esc(g.name)}</h3>
                     <p class="txt-sec" style="font-size:0.71875rem;margin:0.125rem 0 0;">
-                      Plazo: <strong>${g.months} meses</strong> · Ritmo sugerido: <strong class="txt-blue">${fmtMoney(suggestedMonthly)}/mes</strong>
+                      Plazo: <strong>${g.months} meses</strong> · Aporte sugerido: <strong class="txt-blue">${fmtMoney(suggestedMonthly)}/mes</strong>
                     </p>
                   </div>
                 </div>
@@ -3502,12 +3427,8 @@
               <div class="flex items-center justify-between flex-wrap gap-6 mt-10">
                 <span class="txt-ter" style="font-size:0.71875rem;">Faltan: <strong>${fmtMoney(remaining)}</strong></span>
                 <div class="flex items-center gap-6">
-                  <button type="button" class="mini-pill-btn goal-deposit-btn" data-gid="${g.id}" data-add="${quickStep}" style="background:rgba(24,169,87,0.14);color:var(--ios-green);">
-                    +${fmtMoney(quickStep)}
-                  </button>
-                  <button type="button" class="mini-pill-btn goal-deposit-btn" data-gid="${g.id}" data-add="${quickStep * 2}" style="background:rgba(0,122,255,0.14);color:var(--ios-blue);">
-                    +${fmtMoney(quickStep * 2)}
-                  </button>
+                  <input type="text" inputmode="numeric" placeholder="Monto a sumar" class="input-box goal-custom-add-input" data-gid="${g.id}" style="width:7.5rem;padding:0.35rem 0.55rem;font-size:0.75rem;min-height:1.95rem;" />
+                  <button type="button" class="mini-pill-btn goal-add-submit-btn" data-gid="${g.id}" style="background:rgba(24,169,87,0.16);color:var(--ios-green);">+ Sumar</button>
                 </div>
               </div>
             </article>
@@ -3531,24 +3452,44 @@
             </div>
 
             <p class="txt-sec mt-8" style="font-size:0.75rem;margin:0.5rem 0 0;line-height:1.4;">
-              Avance global: <strong>${overallPct}%</strong>. Tu sobre de Ahorro/Inversión proyecta <strong>${fmtMoney(monthlySavingsAvailable)}/mes</strong> que puedes ir sumando a tus metas.
+              Avance global: <strong>${overallPct}%</strong>. Agrega tus propias metas (carro, viaje, fondo de emergencia o estudios) con los montos que decidas.
             </p>
           </section>
 
-          <div class="flex flex-col gap-10">${cardsHtml || `<div class="glass-card p-18 text-center txt-sec" style="font-size:0.8125rem;">Crea tu primera meta (carro, viaje, fondo de emergencia o estudios).</div>`}</div>
+          <div class="flex flex-col gap-10">${cardsHtml || `
+            <div class="glass-card p-20 text-center">
+              <div style="font-size:1.875rem;margin-bottom:0.375rem;">🎯</div>
+              <p style="font-size:0.9375rem;font-weight:800;margin:0;">Sin metas creadas todavía (0)</p>
+              <p class="txt-sec" style="font-size:0.8125rem;margin:0.25rem 0 0.875rem;">Crea tu primera meta con su objetivo, meses y ahorro inicial propio.</p>
+              <button id="emptyCreateGoalBtn" type="button" class="btn-primary">+ Crear mi primera meta</button>
+            </div>
+          `}</div>
         `;
 
         document.getElementById('openNewGoalBtn').addEventListener('click', () => openGoalSheet(null));
+        const emptyBtn = document.getElementById('emptyCreateGoalBtn');
+        if (emptyBtn) emptyBtn.addEventListener('click', () => openGoalSheet(null));
+
         document.getElementById('goalsContainer').querySelectorAll('.edit-goal-btn').forEach(b => {
           b.addEventListener('click', () => openGoalSheet(b.dataset.gid));
         });
-        document.getElementById('goalsContainer').querySelectorAll('.goal-deposit-btn').forEach(b => {
-          b.addEventListener('click', () => {
-            const gid = b.dataset.gid;
-            const addAmt = Number(b.dataset.add) || 0;
+
+        document.getElementById('goalsContainer').querySelectorAll('.goal-custom-add-input').forEach(inp => {
+          inp.addEventListener('input', e => {
+            const v = parseNum(e.target.value);
+            e.target.value = v > 0 ? fmtInput(v) : '';
+          });
+        });
+
+        document.getElementById('goalsContainer').querySelectorAll('.goal-add-submit-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const gid = btn.dataset.gid;
+            const inp = document.querySelector(`.goal-custom-add-input[data-gid="${gid}"]`);
+            const addAmt = inp ? parseNum(inp.value) : 0;
+            if (addAmt <= 0) { showToast('Escribe un monto mayor a 0 para sumar'); return; }
             const g = state.goals.find(x => x.id === gid);
-            if (!g || addAmt <= 0) return;
-            g.saved = Math.min(g.target * 2, g.saved + addAmt);
+            if (!g) return;
+            g.saved = g.saved + addAmt;
             state.history.unshift({
               id: 'goal_' + Date.now(),
               kind: 'goal',
@@ -3609,28 +3550,31 @@
         const pctDebt = monthlyIncome > 0 ? (monthlyDebts / monthlyIncome) * 100 : 0;
         const pctSave = monthlyIncome > 0 ? (monthlySavings / monthlyIncome) * 100 : 0;
 
-        let score = 74;
-        let health = { label: 'Equilibrado', color: '#007AFF', emoji: '👍', msg: 'Buen balance entre gastos, disfrute y ahorro mensual.' };
-        if (dist.hasShortfall || monthlyIncome === 0) {
-          score = 32;
-          health = { label: 'En Alerta', color: '#FF3B30', emoji: '🚨', msg: 'Tus compromisos fijos superan tu ingreso. Revisa tus fijos o pausa servicios.' };
-        } else if (pctSave >= 18 && pctDebt <= 15 && pctFixed <= 55) {
-          score = 92;
-          health = { label: 'Excelente', color: '#28C76F', emoji: '🌟', msg: 'Deuda controlada, fijos sanos y excelente capacidad de ahorro.' };
-        } else if (pctSave < 10 || pctFixed > 65 || pctDebt > 25) {
-          score = 56;
-          health = { label: 'Ajustado', color: '#FF9500', emoji: '⚠️', msg: 'Tu margen de ahorro está reducido. Intenta bajar fijos o suscripciones.' };
+        let score = 0;
+        let health = { label: 'Sin datos aún (0)', color: 'var(--text-tertiary)', emoji: '⚪', msg: 'Ingresa tu salario o gastos en Dividir para calcular tu diagnóstico en tiempo real.' };
+
+        if (monthlyIncome > 0) {
+          score = 74;
+          health = { label: 'Equilibrado', color: '#007AFF', emoji: '👍', msg: 'Buen balance entre gastos, disfrute y ahorro mensual.' };
+          if (dist.hasShortfall) {
+            score = 32;
+            health = { label: 'En Alerta', color: '#FF3B30', emoji: '🚨', msg: 'Tus compromisos fijos superan tu ingreso. Revisa tus fijos o pausa servicios.' };
+          } else if (pctSave >= 18 && pctDebt <= 15 && pctFixed <= 55) {
+            score = 92;
+            health = { label: 'Excelente', color: '#28C76F', emoji: '🌟', msg: 'Deuda controlada, fijos sanos y excelente capacidad de ahorro.' };
+          } else if (pctSave < 10 || pctFixed > 65 || pctDebt > 25) {
+            score = 56;
+            health = { label: 'Ajustado', color: '#FF9500', emoji: '⚠️', msg: 'Tu margen de ahorro está reducido. Intenta bajar fijos o suscripciones.' };
+          }
         }
 
         const ringDash = 188.5;
         const ringOffset = ringDash - (ringDash * score) / 100;
 
-        const minEmerg = state.currency === 'USD' ? 600 : 250000;
-        const emergGoal = Math.max(minEmerg, Math.round(dist.monthlyBasics * 3));
+        const emergGoal = Math.round(dist.monthlyBasics * 3);
         const savedHist = getTotalSavedInHistory();
-        const emergPct = Math.min(100, Math.round((savedHist / emergGoal) * 100));
+        const emergPct = emergGoal > 0 ? Math.min(100, Math.round((savedHist / emergGoal) * 100)) : 0;
 
-        // Simulador de bolsa / índices
         const sim = computeMarketProjection();
         const denomSim = Math.max(sim.baseVal, 1);
         const contribPct = Math.min(100, Math.round((sim.totalContrib / denomSim) * 100));
@@ -3671,7 +3615,7 @@
 
             <div class="mt-10" style="padding-top:0.65rem;border-top:1px solid var(--separator);">
               <div class="flex items-center justify-between mb-4">
-                <span style="font-size:0.78125rem;font-weight:800;">🛡️ Fondo de Emergencia (3 meses)</span>
+                <span style="font-size:0.78125rem;font-weight:800;">🛡️ Fondo de Emergencia (3 meses básicos)</span>
                 <span class="txt-blue" style="font-size:0.78125rem;font-weight:800;">${emergPct}%</span>
               </div>
               <div style="width:100%;height:0.5rem;border-radius:999px;background:var(--fill-soft);overflow:hidden;">
@@ -3679,7 +3623,7 @@
               </div>
               <div class="flex items-center justify-between mt-6" style="font-size:0.71875rem;">
                 <span class="txt-sec">Acumulado: <strong>${fmtMoney(savedHist)}</strong></span>
-                <span class="txt-ter">Meta: ${fmtMoney(emergGoal)}</span>
+                <span class="txt-ter">Meta calculada: ${fmtMoney(emergGoal)}</span>
               </div>
             </div>
           </section>
@@ -3697,7 +3641,6 @@
               ${sim.cfg.note} Estimación ilustrativa, no garantiza rendimientos futuros.
             </p>
 
-            <!-- Perfil de retorno aproximado -->
             <div class="flex flex-wrap gap-6 mb-10">
               <button type="button" class="chip-btn msim-prof-btn ${state.marketSim.profile === 'conservative' ? 'selected' : ''}" data-prof="conservative">🛡️ ~5% Conservador</button>
               <button type="button" class="chip-btn msim-prof-btn ${state.marketSim.profile === 'moderate' ? 'selected' : ''}" data-prof="moderate">📈 ~8% Bolsa Índice</button>
@@ -3707,7 +3650,7 @@
             <div class="grid-2 mb-10">
               <div>
                 <label for="msimMonthlyInput" class="txt-sec" style="font-size:0.71875rem;font-weight:700;display:block;margin-bottom:0.25rem;">Aporte mensual</label>
-                <input id="msimMonthlyInput" type="text" inputmode="numeric" value="${sim.pmt > 0 ? fmtInput(sim.pmt) : ''}" placeholder="50,000" class="input-box" style="padding:0.55rem 0.7rem;font-size:0.875rem;" />
+                <input id="msimMonthlyInput" type="text" inputmode="numeric" value="${sim.pmt > 0 ? fmtInput(sim.pmt) : ''}" placeholder="0" class="input-box" style="padding:0.55rem 0.7rem;font-size:0.875rem;" />
               </div>
               <div>
                 <label for="msimInitialInput" class="txt-sec" style="font-size:0.71875rem;font-weight:700;display:block;margin-bottom:0.25rem;">Monto inicial</label>
@@ -3715,7 +3658,6 @@
               </div>
             </div>
 
-            <!-- Horizonte en años -->
             <div class="flex items-center justify-between flex-wrap gap-6 mb-10">
               <span class="txt-sec" style="font-size:0.71875rem;font-weight:700;">Plazo:</span>
               <div class="flex gap-4 flex-wrap">
@@ -3725,7 +3667,6 @@
               </div>
             </div>
 
-            <!-- Resultado proyectado -->
             <div style="padding:0.85rem;border-radius:1rem;background:var(--fill-soft);border:1px solid var(--glass-border-soft);">
               <div class="flex items-baseline justify-between gap-8">
                 <span class="txt-sec" style="font-size:0.75rem;font-weight:700;">Proyección base (${sim.years} ${sim.years === 1 ? 'año' : 'años'})</span>
@@ -3819,7 +3760,6 @@
           </section>
         `;
 
-        // Eventos del simulador de bolsa
         document.getElementById('useMySavingsSimBtn').addEventListener('click', () => {
           const suggested = Math.max(0, Math.round(monthlySavings));
           state.marketSim.monthlyContrib = suggested;
@@ -3868,7 +3808,7 @@
       }
 
       /* ----------------------------------------------------------------------
-         10. RENDER PESTAÑA 5: HISTORIAL
+         10. RENDER PESTAÑA 5: HISTORIAL (INICIA EN 0)
          ---------------------------------------------------------------------- */
       function renderHistoryView() {
         const totalSaved = getTotalSavedInHistory();
@@ -3884,7 +3824,7 @@
           listEl.innerHTML = `
             <div class="glass-card p-20 text-center">
               <div style="font-size:1.875rem;margin-bottom:0.375rem;">🗂️</div>
-              <p style="font-size:0.9375rem;font-weight:800;margin:0;">Aún no hay registros</p>
+              <p style="font-size:0.9375rem;font-weight:800;margin:0;">Historial en cero (0 registros)</p>
               <p class="txt-sec" style="font-size:0.8125rem;margin:0.25rem 0 0;">Guarda tus pagos desde "Dividir", tus extras desde "Extras" o aportes a tus "Metas".</p>
             </div>
           `;
@@ -3998,11 +3938,11 @@
         const nm = state.profile.name.trim();
         const riskLabel = state.profile.risk === 'conservative' ? 'Conservador' : (state.profile.risk === 'aggressive' ? 'Crecimiento' : 'Moderado');
         document.getElementById('settingsProfileName').textContent = nm ? `${nm}${state.profile.age ? ' · ' + state.profile.age + ' años' : ''}` : 'Tu Perfil';
-        document.getElementById('settingsProfileSub').textContent = `Riesgo: ${riskLabel} · ${state.goals.length} metas activas`;
+        document.getElementById('settingsProfileSub').textContent = `Riesgo: ${riskLabel} · ${state.goals.length} metas · ${state.debts.length} deudas`;
 
         const dEl = document.getElementById('settingsDebtsList');
         dEl.innerHTML = state.debts.length === 0
-          ? `<p class="txt-sec" style="font-size:0.8125rem;margin:0;">Sin deudas registradas.</p>`
+          ? `<p class="txt-sec" style="font-size:0.8125rem;margin:0;">Sin deudas registradas (0). Toca "+ Agregar" para crear una.</p>`
           : state.debts.map(d => {
               const info = analyzeDebt(d);
               return `
@@ -4106,7 +4046,7 @@
         document.getElementById('sheetUnusedPanel').classList.toggle('hidden', m !== 'unused');
 
         const fIn = document.getElementById('sheetFixedInput');
-        if (document.activeElement !== fIn) fIn.value = fmtInput(obj.data.fixedAmount);
+        if (document.activeElement !== fIn) fIn.value = obj.data.fixedAmount > 0 ? fmtInput(obj.data.fixedAmount) : '';
 
         const div = getPeriodDivisor();
         document.getElementById('sheetFixedHint').textContent = div > 1
@@ -4145,9 +4085,9 @@
         const ex = debtId ? state.debts.find(d => d.id === debtId) : null;
         document.getElementById('debtSheetTitle').textContent = ex ? 'Editar deuda' : 'Agregar deuda';
         document.getElementById('debtNameInput').value = ex ? ex.name : '';
-        document.getElementById('debtAmountInput').value = ex ? fmtInput(ex.amount) : '';
-        document.getElementById('debtBalanceInput').value = ex && ex.balance ? fmtInput(ex.balance) : '';
-        document.getElementById('debtAprInput').value = ex ? ex.apr : '16';
+        document.getElementById('debtAmountInput').value = ex && ex.amount > 0 ? fmtInput(ex.amount) : '';
+        document.getElementById('debtBalanceInput').value = ex && ex.balance > 0 ? fmtInput(ex.balance) : '';
+        document.getElementById('debtAprInput').value = ex ? ex.apr : '';
         document.getElementById('debtTermInput').value = ex ? ex.termMonths : '12';
         document.getElementById('debtActiveToggle').checked = ex ? ex.active : true;
         document.getElementById('deleteDebtBtn').classList.toggle('hidden', !ex);
@@ -4167,7 +4107,7 @@
         document.getElementById('goalNameInput').value = ex ? ex.name : '';
         document.getElementById('goalEmojiInput').value = ex ? ex.emoji : '🎯';
         document.getElementById('goalMonthsInput').value = ex ? ex.months : 12;
-        document.getElementById('goalTargetInput').value = ex ? fmtInput(ex.target) : '';
+        document.getElementById('goalTargetInput').value = ex && ex.target > 0 ? fmtInput(ex.target) : '';
         document.getElementById('goalSavedInput').value = ex && ex.saved > 0 ? fmtInput(ex.saved) : '';
         document.getElementById('deleteGoalBtn').classList.toggle('hidden', !ex);
         document.getElementById('goalSheet').classList.add('open');
@@ -4229,7 +4169,7 @@
       }
 
       /* ----------------------------------------------------------------------
-         13. ONBOARDING DE 5 PASOS (SOLO PRIMERA VEZ / REINICIABLE)
+         13. ONBOARDING DESDE CERO (SIN VALORES PRELLENADOS NI AHORRO FORZADO)
          ---------------------------------------------------------------------- */
       function openOnboarding() {
         obStep = 0;
@@ -4239,8 +4179,8 @@
           risk: state.profile.risk || 'moderate',
           currency: state.currency,
           period: state.period,
-          salary: state.salary || (state.currency === 'USD' ? 1000 : 480000),
-          housingFixed: state.core.housing.mode === 'fixed' ? state.core.housing.fixedAmount : 0,
+          salary: state.salary || 0,
+          housingFixed: state.core.housing.fixedAmount || 0,
           debtFixed: state.debts[0] ? state.debts[0].amount : 0,
           selectedServices: state.services.filter(s => s.mode !== 'unused').map(s => s.id),
           goal: state.profile.goal || 'balance'
@@ -4262,7 +4202,7 @@
         document.getElementById('obStepCounter').textContent = `Paso ${obStep + 1} de 5`;
         document.getElementById('obProgressFill').style.width = `${((obStep + 1) / 5) * 100}%`;
         document.getElementById('obPrevBtn').classList.toggle('hidden', obStep === 0);
-        document.getElementById('obNextBtn').textContent = obStep === 4 ? 'Finalizar y ver Tour' : 'Siguiente';
+        document.getElementById('obNextBtn').textContent = obStep === 4 ? 'Guardar y ver Tour' : 'Siguiente';
 
         const box = document.getElementById('obStepContent');
         box.classList.remove('anim-next', 'anim-prev');
@@ -4276,19 +4216,19 @@
             <div class="text-center mb-10">
               <div style="font-size:2.35rem;margin-bottom:0.35rem;">👋</div>
               <h2 style="font-size:1.3rem;font-weight:900;margin:0;">¡Bienvenido a Mi Salario!</h2>
-              <p class="txt-sec" style="font-size:0.8125rem;margin:0.35rem 0 0;">Armemos tu perfil para adaptar cálculos, metas y consejos.</p>
+              <p class="txt-sec" style="font-size:0.8125rem;margin:0.35rem 0 0;">Arrancamos en 0. Configura solo lo que quieras o toca "Empezar en 0".</p>
             </div>
             <div class="flex flex-col gap-10">
               <div>
-                <label class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.3rem;">¿Cómo te llamas?</label>
+                <label class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.3rem;">¿Cómo te llamas? (opcional)</label>
                 <input id="obName" type="text" maxlength="28" value="${esc(obDraft.name)}" placeholder="Tu nombre" class="input-box" />
               </div>
               <div>
                 <label class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.3rem;">Tu edad (opcional)</label>
-                <input id="obAge" type="number" min="15" max="99" value="${esc(obDraft.age)}" placeholder="Ej. 24" class="input-box" />
+                <input id="obAge" type="number" min="15" max="99" value="${esc(obDraft.age)}" placeholder="0" class="input-box" />
               </div>
               <div>
-                <label class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.3rem;">Tolerancia al riesgo al invertir</label>
+                <label class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.3rem;">Perfil de riesgo al invertir</label>
                 <div class="flex gap-6 flex-wrap" id="obRiskChips">
                   <button type="button" class="chip-btn ${obDraft.risk === 'conservative' ? 'selected' : ''}" data-r="conservative">Conservador</button>
                   <button type="button" class="chip-btn ${obDraft.risk === 'moderate' ? 'selected' : ''}" data-r="moderate">Moderado</button>
@@ -4310,7 +4250,7 @@
             <div class="text-center mb-10">
               <div style="font-size:2.35rem;margin-bottom:0.35rem;">💱</div>
               <h2 style="font-size:1.25rem;font-weight:900;margin:0;">Moneda y Frecuencia</h2>
-              <p class="txt-sec" style="font-size:0.8125rem;margin:0.35rem 0 0;">¿En qué moneda recibes tu dinero y cada cuánto te pagan?</p>
+              <p class="txt-sec" style="font-size:0.8125rem;margin:0.35rem 0 0;">¿En qué moneda manejas tu dinero y cada cuánto recibes pagos?</p>
             </div>
             <div class="flex flex-col gap-12">
               <div>
@@ -4335,7 +4275,6 @@
           document.querySelectorAll('#obCurrSeg .segmented-btn').forEach((b, i) => {
             b.addEventListener('click', () => {
               obDraft.currency = b.dataset.c;
-              obDraft.salary = obDraft.currency === 'USD' ? 1000 : 480000;
               setSegmentedIndex(document.getElementById('obCurrSeg'), i);
             });
           });
@@ -4346,16 +4285,15 @@
             });
           });
         } else if (obStep === 2) {
-          const pTxt = obDraft.period === 'weekly' ? 'semanal' : (obDraft.period === 'biweekly' ? 'quincenal' : 'mensual');
           box.innerHTML = `
             <div class="text-center mb-10">
               <div style="font-size:2.35rem;margin-bottom:0.35rem;">💵</div>
-              <h2 style="font-size:1.25rem;font-weight:900;margin:0;">Ingreso Aproximado</h2>
-              <p class="txt-sec" style="font-size:0.8125rem;margin:0.35rem 0 0;">¿Cuánto recibes normalmente en tu pago ${pTxt}? Podrás cambiarlo cada vez.</p>
+              <h2 style="font-size:1.25rem;font-weight:900;margin:0;">Ingreso Inicial (0 si prefieres luego)</h2>
+              <p class="txt-sec" style="font-size:0.8125rem;margin:0.35rem 0 0;">Déjalo en 0 o escribe el monto que quieras probar hoy.</p>
             </div>
             <div class="flex items-center justify-center gap-8 input-box" style="padding:0.875rem;">
               <span class="txt-blue" style="font-size:1.625rem;font-weight:900;">${sym}</span>
-              <input id="obSalary" type="text" inputmode="numeric" value="${fmtInput(obDraft.salary)}"
+              <input id="obSalary" type="text" inputmode="numeric" value="${obDraft.salary > 0 ? fmtInput(obDraft.salary) : ''}" placeholder="0"
                 style="width:11rem;background:transparent;border:none;outline:none;font-size:1.75rem;font-weight:900;text-align:center;color:var(--text-primary);" />
             </div>
           `;
@@ -4368,20 +4306,20 @@
           box.innerHTML = `
             <div class="text-center mb-10">
               <div style="font-size:2.1rem;margin-bottom:0.25rem;">🧾</div>
-              <h2 style="font-size:1.1875rem;font-weight:900;margin:0;">Tus Gastos Principales</h2>
-              <p class="txt-sec" style="font-size:0.78125rem;margin:0.25rem 0 0;">Opcionales: si tienes montos fijos mensuales, escríbelos aquí.</p>
+              <h2 style="font-size:1.1875rem;font-weight:900;margin:0;">Fijos y Servicios (Opcional)</h2>
+              <p class="txt-sec" style="font-size:0.78125rem;margin:0.25rem 0 0;">Todo inicia en 0. Escribe un monto solo si ya tienes uno fijo.</p>
             </div>
             <div class="flex flex-col gap-10">
               <div>
                 <label class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.25rem;">🏠 Vivienda fija mensual (0 si es variable)</label>
-                <input id="obHouse" type="text" inputmode="numeric" value="${obDraft.housingFixed ? fmtInput(obDraft.housingFixed) : ''}" placeholder="Ej. 120,000" class="input-box" />
+                <input id="obHouse" type="text" inputmode="numeric" value="${obDraft.housingFixed ? fmtInput(obDraft.housingFixed) : ''}" placeholder="0" class="input-box" />
               </div>
               <div>
                 <label class="txt-sec" style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.25rem;">💳 Cuota mensual de deuda (0 si no tienes)</label>
-                <input id="obDebt" type="text" inputmode="numeric" value="${obDraft.debtFixed ? fmtInput(obDraft.debtFixed) : ''}" placeholder="Ej. 32,000" class="input-box" />
+                <input id="obDebt" type="text" inputmode="numeric" value="${obDraft.debtFixed ? fmtInput(obDraft.debtFixed) : ''}" placeholder="0" class="input-box" />
               </div>
               <div>
-                <p class="txt-sec mb-6" style="font-size:0.75rem;font-weight:700;">Activar servicios separados:</p>
+                <p class="txt-sec mb-6" style="font-size:0.75rem;font-weight:700;">Activar servicios separados (inician en 0):</p>
                 <div class="flex flex-wrap gap-6" id="obSrvChips">
                   ${state.services.slice(0, 5).map(s => `
                     <button type="button" class="chip-btn ${obDraft.selectedServices.includes(s.id) ? 'selected' : ''}" data-sid="${s.id}">
@@ -4417,15 +4355,15 @@
         } else {
           const goals = [
             { id: 'emergency', emoji: '🛡️', title: 'Crear fondo de emergencia', sub: 'Prioriza liquidez y tranquilidad' },
-            { id: 'invest',    emoji: '📈', title: 'Invertir y generar rendimientos', sub: 'Impulsa tu ahorro mensual al máximo' },
-            { id: 'debt',      emoji: '🔥', title: 'Salir rápido de deudas', sub: 'Control estricto para liberarte antes' },
-            { id: 'balance',   emoji: '✨', title: 'Equilibrio: vivir, disfrutar y ahorrar', sub: 'Reparto armónico en cada pago' }
+            { id: 'invest',    emoji: '📈', title: 'Invertir y generar rendimientos', sub: 'Impulsa tu crecimiento a largo plazo' },
+            { id: 'debt',      emoji: '🔥', title: 'Salir rápido de deudas', sub: 'Enfoque en reducir saldos e intereses' },
+            { id: 'balance',   emoji: '✨', title: 'Equilibrio general', sub: 'Sin sesgo forzado; tú defines cada monto' }
           ];
           box.innerHTML = `
             <div class="text-center mb-10">
               <div style="font-size:2.1rem;margin-bottom:0.25rem;">🎯</div>
-              <h2 style="font-size:1.1875rem;font-weight:900;margin:0;">¿Cuál es tu meta principal?</h2>
-              <p class="txt-sec" style="font-size:0.78125rem;margin:0.25rem 0 0;">Ajustaremos los pesos automáticos a tu objetivo.</p>
+              <h2 style="font-size:1.1875rem;font-weight:900;margin:0;">¿Cuál es tu enfoque principal?</h2>
+              <p class="txt-sec" style="font-size:0.78125rem;margin:0.25rem 0 0;">No agrega montos falsos; solo orienta tus consejos.</p>
             </div>
             <div class="flex flex-col gap-8" id="obGoalList">
               ${goals.map(g => `
@@ -4463,23 +4401,20 @@
           state.core.housing.fixedAmount = obDraft.housingFixed;
         } else {
           state.core.housing.mode = 'variable';
+          state.core.housing.fixedAmount = 0;
         }
 
         if (obDraft.debtFixed > 0) {
           if (state.debts.length === 0) {
-            state.debts.push({ id: 'debt_main', name: 'Deuda principal', amount: obDraft.debtFixed, balance: obDraft.debtFixed * 8, apr: 16, termMonths: 12, active: true });
+            state.debts.push({ id: 'debt_main', name: 'Deuda principal', amount: obDraft.debtFixed, balance: 0, apr: 0, termMonths: 12, active: true });
           } else {
             state.debts[0].amount = obDraft.debtFixed;
             state.debts[0].active = true;
           }
-        } else if (state.debts.length === 1 && state.debts[0].id === 'debt_main') {
-          state.debts[0].active = false;
         }
 
         state.services.forEach(s => {
-          if (obDraft.selectedServices.includes(s.id)) {
-            s.mode = 'fixed';
-          }
+          s.mode = obDraft.selectedServices.includes(s.id) ? 'fixed' : 'unused';
         });
 
         state.onboardingDone = true;
@@ -4510,7 +4445,7 @@
         document.getElementById('wtTrack').style.transform = `translateX(-${wtStep * 20}%)`;
         document.getElementById('wtStepBadge').textContent = `${wtStep + 1} de 5`;
         document.getElementById('wtPrevBtn').classList.toggle('hidden', wtStep === 0);
-        document.getElementById('wtNextBtn').textContent = wtStep === 4 ? 'Empezar a usar' : 'Siguiente';
+        document.getElementById('wtNextBtn').textContent = wtStep === 4 ? 'Empezar en 0' : 'Siguiente';
 
         document.querySelectorAll('#wtDots .wt-dot').forEach((d, idx) => {
           d.classList.toggle('active', idx === wtStep);
@@ -4656,9 +4591,9 @@
         document.getElementById('clearSalaryBtn').addEventListener('click', () => {
           state.salary = 0;
           salIn.value = '';
-          salIn.focus();
           saveState();
           renderSplitView();
+          showToast('Salario puesto en 0');
         });
 
         document.getElementById('disconnectExtraBtn').addEventListener('click', () => {
@@ -4692,7 +4627,7 @@
         document.getElementById('saveHistoryBtn').addEventListener('click', () => {
           const dist = computeDistribution();
           if (dist.totalIncome <= 0) {
-            showToast('Ingresa primero tu salario');
+            showToast('Ingresa un monto mayor a 0 para guardar');
             return;
           }
           const labels = { debts: '💳 Deudas' };
@@ -4741,7 +4676,7 @@
           });
         });
         document.getElementById('connectExtraToSplitBtn').addEventListener('click', () => {
-          if (state.extraDraft.amount <= 0) { showToast('Ingresa un monto extra'); return; }
+          if (state.extraDraft.amount <= 0) { showToast('Ingresa un monto extra mayor a 0'); return; }
           state.connectedExtra = {
             amount: state.extraDraft.amount,
             concept: (state.extraDraft.concept || 'Ingreso extra').trim()
@@ -4751,7 +4686,7 @@
           switchTab('split');
         });
         document.getElementById('saveExtraHistoryBtn').addEventListener('click', () => {
-          if (state.extraDraft.amount <= 0) { showToast('Ingresa un monto extra'); return; }
+          if (state.extraDraft.amount <= 0) { showToast('Ingresa un monto extra mayor a 0'); return; }
           const dist = computeDistribution();
           const plan = computeExtraPlan(dist);
           state.history.unshift({
@@ -4788,7 +4723,7 @@
           if (!title) { showToast('Escribe un título para el gasto'); return; }
           const emoji = document.getElementById('inlineCustomEmojiInput').value.trim() || '🎯';
           const fixedAmt = parseNum(document.getElementById('inlineCustomAmount').value);
-          const weight = Math.max(1, parseInt(document.getElementById('inlineCustomWeight').value, 10) || 6);
+          const weight = Math.max(1, parseInt(document.getElementById('inlineCustomWeight').value, 10) || 5);
 
           state.services.push({
             id: 'cus_' + Date.now(),
@@ -4796,7 +4731,7 @@
             emoji,
             color: '#5856D6',
             mode: inlineCustomMode,
-            fixedAmount: fixedAmt || (state.currency === 'USD' ? 25 : 15000),
+            fixedAmount: fixedAmt,
             weight,
             isEssential: false,
             custom: true
@@ -4813,17 +4748,22 @@
         document.getElementById('replayWalkthroughBtn').addEventListener('click', openWalkthrough);
         document.getElementById('restartOnboardingBtn').addEventListener('click', openOnboarding);
 
+        document.getElementById('clearAllToZeroBtn').addEventListener('click', () => {
+          openConfirm(
+            '¿Vaciar todo a cero (0)?',
+            'Se borrarán salario, deudas, metas, historial, extras y montos fijos para empezar en 0.',
+            'Vaciar a 0',
+            wipeEverythingToZero
+          );
+        });
+
         document.getElementById('restoreDefaultsBtn').addEventListener('click', () => {
-          openConfirm('¿Restaurar valores por defecto?', 'Tu historial guardado se conservará.', 'Restaurar', () => {
-            state.core = defaultCore();
-            state.debts = defaultDebts();
-            state.goals = defaultGoals();
-            state.services = defaultServices();
-            state.connectedExtra = null;
-            saveState();
-            renderActiveTab();
-            showToast('Valores restaurados');
-          });
+          openConfirm(
+            '¿Restaurar estado inicial en 0?',
+            'Vuelve todos los montos, deudas, metas e historial a cero.',
+            'Restaurar en 0',
+            wipeEverythingToZero
+          );
         });
 
         // Sheet Editar Item
@@ -4888,13 +4828,13 @@
         document.getElementById('debtTermInput').addEventListener('input', updateDebtSheetPreview);
 
         document.getElementById('saveDebtBtn').addEventListener('click', () => {
-          const name = document.getElementById('debtNameInput').value.trim() || 'Nueva deuda';
+          const name = document.getElementById('debtNameInput').value.trim() || 'Deuda';
           const amount = parseNum(document.getElementById('debtAmountInput').value);
-          const balance = parseNum(document.getElementById('debtBalanceInput').value) || (amount * 8);
+          const balance = parseNum(document.getElementById('debtBalanceInput').value);
           const apr = Math.max(0, Math.min(120, Number(document.getElementById('debtAprInput').value) || 0));
           const termMonths = Math.max(1, Math.min(360, parseInt(document.getElementById('debtTermInput').value, 10) || 12));
           const active = document.getElementById('debtActiveToggle').checked;
-          if (amount <= 0) { showToast('Ingresa una cuota mayor a 0'); return; }
+          if (amount <= 0) { showToast('Ingresa una cuota mensual mayor a 0'); return; }
 
           if (editingDebtId) {
             const d = state.debts.find(x => x.id === editingDebtId);
@@ -4931,7 +4871,7 @@
           e.target.value = v > 0 ? fmtInput(v) : '';
         });
         document.getElementById('saveGoalBtn').addEventListener('click', () => {
-          const name = document.getElementById('goalNameInput').value.trim() || 'Nueva meta';
+          const name = document.getElementById('goalNameInput').value.trim() || 'Meta';
           const emoji = document.getElementById('goalEmojiInput').value.trim() || '🎯';
           const months = Math.max(1, Math.min(240, parseInt(document.getElementById('goalMonthsInput').value, 10) || 12));
           const target = parseNum(document.getElementById('goalTargetInput').value);
@@ -5032,7 +4972,7 @@
       }
 
       /* ----------------------------------------------------------------------
-         17. ARRANQUE INICIAL
+         17. ARRANQUE INICIAL DESDE CERO
          ---------------------------------------------------------------------- */
       loadState();
       applyFontScale();
